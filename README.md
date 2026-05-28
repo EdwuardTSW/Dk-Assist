@@ -32,7 +32,7 @@ Muchos emprendedores pierden información, cometen errores y pierden tiempo porq
 
 ## Documentación
 
-- [`docs/ADR-01-Edwuard-Chay.md`](docs/ADR-01-Edwuard-Chay.md) — Decisiones arquitectónicas iniciales
+[`ADR-01-EdwuardChay-DkAssist.md`](ADR-01-EdwuardChay-DkAssist.md)
 
 ---
 

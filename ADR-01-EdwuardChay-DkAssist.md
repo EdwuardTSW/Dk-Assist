@@ -59,4 +59,5 @@ Se adopta ASP.NET Core como tecnología base para el desarrollo del sistema, dad
 
 ## Diagrama
 
+<img width="1168" height="1128" alt="Untitled-2026-05-13-0720" src="https://github.com/user-attachments/assets/b40350ad-758f-4da8-9a84-d9294d084cfc" />
 
