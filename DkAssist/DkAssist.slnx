@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="DkAssist.Application/DkAssist.Application.csproj" />
+  <Project Path="DkAssist.Domain/DkAssist.Domain.csproj" />
+  <Project Path="DkAssist.Infrastructure/DkAssist.Infrastructure.csproj" />
+  <Project Path="DkAssist.Presentation/DkAssist.Presentation.csproj" />
+</Solution>

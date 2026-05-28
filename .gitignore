@@ -361,3 +361,19 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# AI Agents & Tools
+.claude/
+.cursor/
+.aider*
+.continue/
+memory/
+skills/
+.copilot/
+
+# AI generated context files
+*.ai-context
+*.agent-memory
+
+# Windsurf
+.windsurf/
