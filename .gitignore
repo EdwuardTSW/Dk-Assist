@@ -375,5 +375,8 @@ skills/
 *.ai-context
 *.agent-memory
 
+# Personal project planning/context files
+Utilities/
+
 # Windsurf
 .windsurf/

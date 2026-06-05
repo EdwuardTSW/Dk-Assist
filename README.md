@@ -28,11 +28,11 @@ Muchos emprendedores pierden información, cometen errores y pierden tiempo porq
 
 ## Estado del proyecto
 
-🟡 En etapa inicial — documentación arquitectónica (ADR).
+🟡 En desarrollo inicial — arquitectura base por capas creada y módulo de Clientes en preparación.
 
 ## Documentación
 
-[`ADR-01-EdwuardChay-DkAssist.md`](ADR-01-EdwuardChay-DkAssist.md)
+[`ADR-02-EdwuardChay-DkAssist.md`](ADR-02-EdwuardChay-DkAssist.md)
 
 ---
 
