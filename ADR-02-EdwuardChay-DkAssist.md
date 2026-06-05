@@ -63,7 +63,7 @@ Documentar las cuatro vistas garantiza que cada audiencia tenga su respuesta sin
 
 ### Vista lógica — ¿qué hace el sistema?
 
-![alt text](blob:https://markdownviewer.pages.dev/c67528ca-549c-47fb-ae27-c5297da14a56)
+<img width="622" height="427" alt="Vista lógica drawio" src="https://github.com/user-attachments/assets/12b32e22-899b-4738-b2c9-a0ff62108523" />
 
 ---
 
@@ -81,13 +81,13 @@ DkAssist.sln
 
 ### Vista de procesos — ¿cómo se comporta en ejecución?
 
-![alt text](blob:https://markdownviewer.pages.dev/a9b9152a-1305-4c7e-9373-ec68ed1820d6)
+<img width="531" height="551" alt="Vista de procesos drawio" src="https://github.com/user-attachments/assets/caa93fb8-9164-4e31-bf08-a1387711d0f9" />
 
 ---
 
 ### Vista de despliegue — ¿dónde vive físicamente?
 
-![alt text](blob:https://markdownviewer.pages.dev/e690ffaa-b26b-4f0e-ab8f-7840a4ba0902)
+<img width="542" height="932" alt="Vista de despliegue drawio" src="https://github.com/user-attachments/assets/49ffe850-fb55-4a44-a71d-adf881a5843b" />
 
 > **Nota:** El entorno de producción está planeado pero no implementado todavía.
 
