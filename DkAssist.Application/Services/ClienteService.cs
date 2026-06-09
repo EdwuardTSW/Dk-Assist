@@ -1,6 +1,5 @@
 ﻿using DkAssist.Domain.Interfaces;
 using DkAssist.Domain.Models;
-using System.Runtime.CompilerServices;
 
 namespace DkAssist.Application.Services
 {

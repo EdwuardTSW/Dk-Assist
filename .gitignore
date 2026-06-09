@@ -266,6 +266,14 @@ ServiceFabricBackup/
 *.ldf
 *.ndf
 
+# SQLite files
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
 # Business Intelligence projects
 *.rdl.data
 *.bim.layout
@@ -362,21 +370,98 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-# AI Agents & Tools
+# =============================================================================
+# AI / Coding Agents / Assistants
+# Ningún rastro de IA o agentes debe llegar al repositorio.
+# =============================================================================
+
+# Anthropic / Claude
 .claude/
+CLAUDE.md
+CLAUDE.local.md
+
+# OpenAI Codex / ChatGPT
+.codex/
+.chatgpt/
+
+# GitHub Copilot
+.copilot/
+.github/copilot/
+copilot-instructions.md
+
+# Cursor
 .cursor/
+.cursorrules
+.cursorignore
+
+# Codeium / Windsurf
+.codeium/
+.windsurf/
+
+# AWS CodeWhisperer / Bedrock agents
+.aws-toolkit/
+.codewhisperer/
+.bedrock-agents/
+
+# Google Gemini
+.gemini/
+.idx/
+
+# JetBrains Junie / AI Assistant
+.junie/
+
+# Tabnine
+.tabnine/
+
+# Sourcegraph Cody
+.cody/
+
+# Aider
 .aider*
+
+# Continue.dev
 .continue/
+
+# Cline / Roo
+.cline/
+.roo/
+
+# CodeBuddy
+.codebuddy/
+
+# Qodo (Codium AI)
+.qodo/
+
+# SpecStory
+.specstory/
+
+# Zed AI
+.zed/
+
+# Generic agent folders
+.agents/
+.agent/
+agents/
+AGENTS.md
+agent.md
+.agentignore
+
+# OpenCode / OpenClaw / KiloCode
+.opencode/
+.openclaw/
+.kilocode/
+
+# Memoria y skills compartidas
 memory/
 skills/
-.copilot/
+skills-lock.json
+*.skill
 
 # AI generated context files
 *.ai-context
 *.agent-memory
+*.ai-rules
+.ai/
 
-# Personal project planning/context files
+# Personal project planning/context files (uso local únicamente)
 Utilities/
-
-# Windsurf
-.windsurf/

@@ -1,4 +1,4 @@
-﻿namespace DkAssist.Domain.Models
+namespace DkAssist.Domain.Models
 {
     public class Cliente
     {
@@ -6,6 +6,7 @@
         public string Nombre { get; set; } = string.Empty;
         public string Telefono { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
-        public string Direccion {  get; set; } = string.Empty;
-        public DateTime FechaRegistro { get; set; } = DateTime.Now;
+        public string Direccion { get; set; } = string.Empty;
+        public DateTime FechaRegistro { get; set; } = DateTime.UtcNow;
     }
+}
