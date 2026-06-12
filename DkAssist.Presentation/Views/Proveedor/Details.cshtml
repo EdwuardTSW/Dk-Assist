@@ -1,0 +1,19 @@
+@model DkAssist.Presentation.Models.ProveedorViewModel
+@{ ViewData["Title"] = "Detalle del proveedor"; }
+
+<h1>@Model.Nombre</h1>
+
+<div class="card col-md-6">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Contacto</dt><dd class="col-sm-9 text-break">@Model.Contacto</dd>
+            <dt class="col-sm-3">Teléfono</dt><dd class="col-sm-9">@Model.Telefono</dd>
+            <dt class="col-sm-3">Email</dt><dd class="col-sm-9 text-break">@Model.Email</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="mt-3">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Editar</a>
+    <a asp-action="Index" class="btn btn-link">Volver</a>
+</div>

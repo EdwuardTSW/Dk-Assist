@@ -15,6 +15,14 @@ builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 builder.Services.AddScoped<ClienteService>();
 builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
 builder.Services.AddScoped<ProductoService>();
+builder.Services.AddScoped<IProveedorRepository, ProveedorRepository>();
+builder.Services.AddScoped<ProveedorService>();
+builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
+builder.Services.AddScoped<PedidoService>();
+builder.Services.AddScoped<ICotizacionRepository, CotizacionRepository>();
+builder.Services.AddScoped<CotizacionService>();
+builder.Services.AddScoped<IMovimientoStockRepository, MovimientoStockRepository>();
+builder.Services.AddScoped<MovimientoStockService>();
 
 var app = builder.Build();
 

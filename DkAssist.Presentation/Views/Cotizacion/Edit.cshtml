@@ -1,0 +1,30 @@
+@model DkAssist.Presentation.Models.CotizacionViewModel
+@{ ViewData["Title"] = "Editar cotización"; }
+
+<h1>Editar cotización</h1>
+
+<form asp-action="Edit" method="post" class="col-lg-8" novalidate>
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="Fecha" />
+    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+    <div class="mb-3"><label asp-for="ClienteId" class="form-label"></label><select asp-for="ClienteId" asp-items="Model.Clientes" class="form-select"><option value="0">Selecciona un cliente</option></select><span asp-validation-for="ClienteId" class="text-danger" role="alert"></span></div>
+    <div class="row">
+        <div class="col-md-6 mb-3"><label asp-for="Vigencia" class="form-label"></label><input asp-for="Vigencia" type="date" class="form-control" /></div>
+        <div class="col-md-6 mb-3"><label asp-for="Estado" class="form-label"></label><input asp-for="Estado" class="form-control" /><span asp-validation-for="Estado" class="text-danger" role="alert"></span></div>
+    </div>
+    <div class="mb-3"><label asp-for="Notas" class="form-label"></label><textarea asp-for="Notas" class="form-control" rows="3"></textarea></div>
+    <h2 class="h4">Productos</h2>
+    @for (var i = 0; i < Model.Items.Count; i++)
+    {
+        <input type="hidden" asp-for="Items[i].Id" />
+        <div class="row g-2 align-items-end mb-2">
+            <div class="col-md-6"><label asp-for="Items[i].ProductoId" class="form-label"></label><select asp-for="Items[i].ProductoId" asp-items="Model.Productos" class="form-select"><option value="0">Selecciona un producto</option></select><span asp-validation-for="Items[i].ProductoId" class="text-danger" role="alert"></span></div>
+            <div class="col-md-3"><label asp-for="Items[i].Cantidad" class="form-label"></label><input asp-for="Items[i].Cantidad" type="number" min="1" class="form-control" inputmode="numeric" /><span asp-validation-for="Items[i].Cantidad" class="text-danger" role="alert"></span></div>
+            <div class="col-md-3"><label asp-for="Items[i].PrecioUnitario" class="form-label"></label><input asp-for="Items[i].PrecioUnitario" class="form-control" inputmode="decimal" /><span asp-validation-for="Items[i].PrecioUnitario" class="text-danger" role="alert"></span></div>
+        </div>
+    }
+    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+    <a asp-action="Index" class="btn btn-link">Cancelar</a>
+</form>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

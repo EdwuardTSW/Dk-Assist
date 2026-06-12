@@ -1,0 +1,7 @@
+@model DkAssist.Presentation.Models.MovimientoStockViewModel
+@{ ViewData["Title"] = "Eliminar movimiento"; }
+
+<h1 class="text-danger">¿Eliminar este movimiento?</h1>
+<p>Esta acción no se puede deshacer.</p>
+<div class="card col-md-6 mb-3"><div class="card-body"><dl class="row mb-0"><dt class="col-sm-3">Producto</dt><dd class="col-sm-9 text-break">@Model.ProductoNombre</dd><dt class="col-sm-3">Tipo</dt><dd class="col-sm-9">@Model.Tipo</dd><dt class="col-sm-3">Cantidad</dt><dd class="col-sm-9">@Model.Cantidad</dd></dl></div></div>
+<form asp-action="Delete" method="post"><input type="hidden" asp-for="Id" /><button type="submit" class="btn btn-danger">Eliminar</button><a asp-action="Index" class="btn btn-link">Cancelar</a></form>

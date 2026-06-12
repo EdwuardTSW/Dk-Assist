@@ -1,0 +1,21 @@
+@model DkAssist.Presentation.Models.PedidoViewModel
+@{ ViewData["Title"] = "Eliminar pedido"; }
+
+<h1 class="text-danger">¿Eliminar este pedido?</h1>
+<p>Esta acción no se puede deshacer.</p>
+
+<div class="card col-md-6 mb-3">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Cliente</dt><dd class="col-sm-9 text-break">@Model.ClienteNombre</dd>
+            <dt class="col-sm-3">Estado</dt><dd class="col-sm-9">@Model.Estado</dd>
+            <dt class="col-sm-3">Total</dt><dd class="col-sm-9">@Model.Total.ToString("C")</dd>
+        </dl>
+    </div>
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a asp-action="Index" class="btn btn-link">Cancelar</a>
+</form>
