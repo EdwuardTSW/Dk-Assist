@@ -24,6 +24,7 @@
     <ProjectReference Include="..\DkAssist.Domain\DkAssist.Domain.csproj" />
     <ProjectReference Include="..\DkAssist.Application\DkAssist.Application.csproj" />
     <ProjectReference Include="..\DkAssist.Infrastructure\DkAssist.Infrastructure.csproj" />
+    <ProjectReference Include="..\DkAssist.Presentation\DkAssist.Presentation.csproj" />
   </ItemGroup>
 
 </Project>

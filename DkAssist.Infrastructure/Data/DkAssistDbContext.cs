@@ -11,5 +11,8 @@ namespace DkAssist.Infrastructure.Data
     {
         /// <summary>Acceso a la tabla <c>Clientes</c>.</summary>
         public DbSet<Cliente> Clientes => Set<Cliente>();
+
+        /// <summary>Acceso a la tabla <c>Productos</c>.</summary>
+        public DbSet<Producto> Productos => Set<Producto>();
     }
 }

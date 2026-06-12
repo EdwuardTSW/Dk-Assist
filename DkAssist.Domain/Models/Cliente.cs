@@ -1,5 +1,8 @@
 namespace DkAssist.Domain.Models
 {
+    /// <summary>
+    /// Cliente registrado en el sistema.
+    /// </summary>
     public class Cliente
     {
         public int Id { get; set; }

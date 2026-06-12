@@ -1,0 +1,21 @@
+@model DkAssist.Presentation.Models.ProductoViewModel
+@{ ViewData["Title"] = "Eliminar producto"; }
+
+<h1 class="text-danger">¿Eliminar este producto?</h1>
+<p>Esta acción no se puede deshacer.</p>
+
+<div class="card col-md-6 mb-3">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Nombre</dt><dd class="col-sm-9 text-break">@Model.Nombre</dd>
+            <dt class="col-sm-3">SKU</dt><dd class="col-sm-9 text-break" translate="no">@Model.SKU</dd>
+            <dt class="col-sm-3">Precio</dt><dd class="col-sm-9">@Model.Precio.ToString("C")</dd>
+        </dl>
+    </div>
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a asp-action="Index" class="btn btn-link">Cancelar</a>
+</form>
