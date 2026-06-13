@@ -32,7 +32,7 @@ Muchos emprendedores pierden información, cometen errores y pierden tiempo porq
 
 ## Documentación
 
-[`ADR-02-EdwuardChay-DkAssist.md`](ADR-02-EdwuardChay-DkAssist.md)
+[`ADR-03-EdwuardChay-DkAssist.md`](ADR-03-EdwuardChay-DkAssist.md)
 
 ---
 
