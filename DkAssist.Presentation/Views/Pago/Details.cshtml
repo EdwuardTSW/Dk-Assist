@@ -1,0 +1,21 @@
+@model DkAssist.Presentation.Models.PagoViewModel
+@{ ViewData["Title"] = "Detalle del pago"; }
+
+<h1>Pago @Model.Id</h1>
+
+<div class="card col-md-6">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-4">Pedido</dt><dd class="col-sm-8 text-break">@Model.PedidoDescripcion</dd>
+            <dt class="col-sm-4">Monto</dt><dd class="col-sm-8">@Model.Monto.ToString("C")</dd>
+            <dt class="col-sm-4">Método</dt><dd class="col-sm-8">@Model.Metodo</dd>
+            <dt class="col-sm-4">Fecha</dt><dd class="col-sm-8">@Model.Fecha.ToLocalTime().ToString("g")</dd>
+            <dt class="col-sm-4">Referencia</dt><dd class="col-sm-8 text-break" translate="no">@Model.Referencia</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="mt-3">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Editar</a>
+    <a asp-action="Index" class="btn btn-link">Volver</a>
+</div>

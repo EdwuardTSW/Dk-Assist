@@ -45,6 +45,12 @@ namespace DkAssist.Infrastructure.Repositories
                 .ConfigureAwait(false);
             if (existing is null) return;
 
+            if (ReferenceEquals(existing, pedido))
+            {
+                await context.SaveChangesAsync().ConfigureAwait(false);
+                return;
+            }
+
             existing.ClienteId = pedido.ClienteId;
             existing.Fecha = pedido.Fecha;
             existing.FechaEntrega = pedido.FechaEntrega;

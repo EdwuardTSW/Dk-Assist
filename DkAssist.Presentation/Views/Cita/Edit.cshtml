@@ -1,0 +1,46 @@
+@model DkAssist.Presentation.Models.CitaViewModel
+@{ ViewData["Title"] = "Editar cita"; }
+
+<h1>Editar cita</h1>
+
+<form asp-action="Edit" method="post" class="col-md-6" novalidate>
+    <input type="hidden" asp-for="Id" />
+    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+    <div class="mb-3">
+        <label asp-for="ClienteId" class="form-label"></label>
+        <select asp-for="ClienteId" asp-items="Model.Clientes" class="form-select">
+            <option value="0">Selecciona un cliente</option>
+        </select>
+        <span asp-validation-for="ClienteId" class="text-danger" role="alert"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="FechaHora" class="form-label"></label>
+        <input asp-for="FechaHora" type="datetime-local" class="form-control" />
+        <span asp-validation-for="FechaHora" class="text-danger" role="alert"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Tipo" class="form-label"></label>
+        <input asp-for="Tipo" class="form-control" />
+        <span asp-validation-for="Tipo" class="text-danger" role="alert"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Estado" class="form-label"></label>
+        <input asp-for="Estado" class="form-control" />
+        <span asp-validation-for="Estado" class="text-danger" role="alert"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Notas" class="form-label"></label>
+        <textarea asp-for="Notas" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="Notas" class="text-danger" role="alert"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+    <a asp-action="Index" class="btn btn-link">Cancelar</a>
+</form>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

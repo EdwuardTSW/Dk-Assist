@@ -33,6 +33,12 @@ namespace DkAssist.Infrastructure.Data
         /// <summary>Acceso a la tabla <c>MovimientosStock</c>.</summary>
         public DbSet<MovimientoStock> MovimientosStock => Set<MovimientoStock>();
 
+        /// <summary>Acceso a la tabla <c>Citas</c>.</summary>
+        public DbSet<Cita> Citas => Set<Cita>();
+
+        /// <summary>Acceso a la tabla <c>Pagos</c>.</summary>
+        public DbSet<Pago> Pagos => Set<Pago>();
+
         /// <inheritdoc/>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -76,6 +82,18 @@ namespace DkAssist.Infrastructure.Data
                 .HasOne(m => m.Producto)
                 .WithMany()
                 .HasForeignKey(m => m.ProductoId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Cita>()
+                .HasOne(c => c.Cliente)
+                .WithMany()
+                .HasForeignKey(c => c.ClienteId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Pago>()
+                .HasOne(p => p.Pedido)
+                .WithMany()
+                .HasForeignKey(p => p.PedidoId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

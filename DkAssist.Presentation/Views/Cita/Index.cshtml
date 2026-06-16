@@ -1,0 +1,50 @@
+@model IEnumerable<DkAssist.Presentation.Models.CitaViewModel>
+@{ ViewData["Title"] = "Citas"; }
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Citas</h1>
+    <a class="btn btn-primary" asp-action="Create">Nueva cita</a>
+</div>
+
+@if (TempData["Success"] is string msg)
+{
+    <div class="alert alert-success" role="alert" aria-live="polite">@msg</div>
+}
+
+@if (!Model.Any())
+{
+    <p class="text-muted">Aún no hay citas registradas. Crea la primera con el botón Nueva cita.</p>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-striped align-middle">
+            <caption class="visually-hidden">Lista de citas registradas</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Cliente</th>
+                    <th scope="col">Fecha y hora</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col"><span class="visually-hidden">Acciones</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cita in Model)
+                {
+                    <tr>
+                        <td class="text-break">@cita.ClienteNombre</td>
+                        <td>@cita.FechaHora.ToLocalTime().ToString("g")</td>
+                        <td class="text-break">@cita.Tipo</td>
+                        <td>@cita.Estado</td>
+                        <td class="text-end">
+                            <a class="btn btn-sm btn-outline-secondary" asp-action="Details" asp-route-id="@cita.Id" aria-label="Ver detalles de la cita @cita.Id">Detalles</a>
+                            <a class="btn btn-sm btn-outline-primary" asp-action="Edit" asp-route-id="@cita.Id" aria-label="Editar cita @cita.Id">Editar</a>
+                            <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@cita.Id" aria-label="Eliminar cita @cita.Id">Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

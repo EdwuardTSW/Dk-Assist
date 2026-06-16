@@ -1,0 +1,39 @@
+@model DkAssist.Presentation.Models.PagoViewModel
+@{ ViewData["Title"] = "Nuevo pago"; }
+
+<h1>Nuevo pago</h1>
+
+<form asp-action="Create" method="post" class="col-md-6" novalidate>
+    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+    <div class="mb-3">
+        <label asp-for="PedidoId" class="form-label"></label>
+        <select asp-for="PedidoId" asp-items="Model.Pedidos" class="form-select" aria-describedby="PedidoId-error" aria-invalid="@(ViewData.ModelState[nameof(Model.PedidoId)]?.Errors.Count > 0 ? "true" : "false")">
+            <option value="0">Selecciona un pedido</option>
+        </select>
+        <span id="PedidoId-error" asp-validation-for="PedidoId" class="text-danger" role="alert"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Monto" class="form-label"></label>
+        <input asp-for="Monto" class="form-control" inputmode="decimal" aria-describedby="Monto-error" aria-invalid="@(ViewData.ModelState[nameof(Model.Monto)]?.Errors.Count > 0 ? "true" : "false")" />
+        <span id="Monto-error" asp-validation-for="Monto" class="text-danger" role="alert"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Metodo" class="form-label"></label>
+        <input asp-for="Metodo" class="form-control" aria-describedby="Metodo-error" aria-invalid="@(ViewData.ModelState[nameof(Model.Metodo)]?.Errors.Count > 0 ? "true" : "false")" />
+        <span id="Metodo-error" asp-validation-for="Metodo" class="text-danger" role="alert"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Referencia" class="form-label"></label>
+        <input asp-for="Referencia" class="form-control" translate="no" />
+        <span asp-validation-for="Referencia" class="text-danger" role="alert"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a asp-action="Index" class="btn btn-link">Cancelar</a>
+</form>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

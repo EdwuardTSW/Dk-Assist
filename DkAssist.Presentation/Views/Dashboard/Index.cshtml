@@ -1,0 +1,79 @@
+@model DkAssist.Application.DTOs.DashboardMetrics
+@{ ViewData["Title"] = "Dashboard"; }
+
+<section class="mb-4" aria-labelledby="dashboard-title">
+    <div class="d-flex flex-column flex-md-row justify-content-between gap-3 align-items-md-end">
+        <div>
+            <p class="text-uppercase text-muted fw-semibold mb-1">Resumen operativo</p>
+            <h1 id="dashboard-title" class="mb-0">Dashboard DkAssist</h1>
+        </div>
+        <p class="text-muted mb-0">Indicadores actualizados con los datos registrados en el sistema.</p>
+    </div>
+</section>
+
+<div class="row g-4" aria-label="Métricas principales">
+    <div class="col-12 col-md-6 col-xl-4">
+        <article class="card h-100 border-primary">
+            <div class="card-body">
+                <p class="text-muted mb-1">Clientes nuevos del mes</p>
+                <p class="display-6 fw-bold mb-0">@Model.ClientesNuevosMes</p>
+            </div>
+        </article>
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4">
+        <article class="card h-100 border-warning">
+            <div class="card-body">
+                <p class="text-muted mb-1">Pedidos pendientes</p>
+                <p class="display-6 fw-bold mb-0">@Model.PedidosPendientes</p>
+            </div>
+        </article>
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4">
+        <article class="card h-100 border-success">
+            <div class="card-body">
+                <p class="text-muted mb-1">Total cotizado vigente</p>
+                <p class="display-6 fw-bold mb-0">@Model.TotalCotizadoVigente.ToString("C")</p>
+            </div>
+        </article>
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4">
+        <article class="card h-100 border-danger">
+            <div class="card-body">
+                <p class="text-muted mb-1">Productos con stock bajo</p>
+                <p class="display-6 fw-bold mb-0">@Model.ProductosStockBajo</p>
+            </div>
+        </article>
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4">
+        <article class="card h-100 border-info">
+            <div class="card-body">
+                <p class="text-muted mb-1">Próximas citas de la semana</p>
+                <p class="display-6 fw-bold mb-0">@Model.ProximasCitasSemana</p>
+            </div>
+        </article>
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4">
+        <article class="card h-100 border-secondary">
+            <div class="card-body">
+                <p class="text-muted mb-1">Pagos del mes</p>
+                <p class="display-6 fw-bold mb-0">@Model.PagosMes.ToString("C")</p>
+            </div>
+        </article>
+    </div>
+</div>
+
+<section class="mt-4" aria-labelledby="quick-actions-title">
+    <h2 id="quick-actions-title" class="h4">Acciones rápidas</h2>
+    <div class="d-flex flex-wrap gap-2">
+        <a class="btn btn-outline-primary" asp-controller="Cliente" asp-action="Create">Nuevo cliente</a>
+        <a class="btn btn-outline-primary" asp-controller="Producto" asp-action="Create">Nuevo producto</a>
+        <a class="btn btn-outline-primary" asp-controller="Pedido" asp-action="Create">Nuevo pedido</a>
+        <a class="btn btn-outline-primary" asp-controller="Cita" asp-action="Create">Nueva cita</a>
+        <a class="btn btn-outline-primary" asp-controller="Pago" asp-action="Create">Nuevo pago</a>
+    </div>
+</section>

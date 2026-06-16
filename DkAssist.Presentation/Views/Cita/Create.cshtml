@@ -1,0 +1,45 @@
+@model DkAssist.Presentation.Models.CitaViewModel
+@{ ViewData["Title"] = "Nueva cita"; }
+
+<h1>Nueva cita</h1>
+
+<form asp-action="Create" method="post" class="col-md-6" novalidate>
+    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+    <div class="mb-3">
+        <label asp-for="ClienteId" class="form-label"></label>
+        <select asp-for="ClienteId" asp-items="Model.Clientes" class="form-select" aria-describedby="ClienteId-error" aria-invalid="@(ViewData.ModelState[nameof(Model.ClienteId)]?.Errors.Count > 0 ? "true" : "false")">
+            <option value="0">Selecciona un cliente</option>
+        </select>
+        <span id="ClienteId-error" asp-validation-for="ClienteId" class="text-danger" role="alert"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="FechaHora" class="form-label"></label>
+        <input asp-for="FechaHora" type="datetime-local" class="form-control" aria-describedby="FechaHora-error" aria-invalid="@(ViewData.ModelState[nameof(Model.FechaHora)]?.Errors.Count > 0 ? "true" : "false")" />
+        <span id="FechaHora-error" asp-validation-for="FechaHora" class="text-danger" role="alert"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Tipo" class="form-label"></label>
+        <input asp-for="Tipo" class="form-control" aria-describedby="Tipo-error" aria-invalid="@(ViewData.ModelState[nameof(Model.Tipo)]?.Errors.Count > 0 ? "true" : "false")" />
+        <span id="Tipo-error" asp-validation-for="Tipo" class="text-danger" role="alert"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Estado" class="form-label"></label>
+        <input asp-for="Estado" class="form-control" aria-describedby="Estado-error" aria-invalid="@(ViewData.ModelState[nameof(Model.Estado)]?.Errors.Count > 0 ? "true" : "false")" />
+        <span id="Estado-error" asp-validation-for="Estado" class="text-danger" role="alert"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Notas" class="form-label"></label>
+        <textarea asp-for="Notas" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="Notas" class="text-danger" role="alert"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a asp-action="Index" class="btn btn-link">Cancelar</a>
+</form>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }
