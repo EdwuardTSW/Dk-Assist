@@ -27,7 +27,8 @@ public class PagoServiceTests
         var pedidoRepo = new Mock<IPedidoRepository>();
         var pedido = new Pedido { Id = 1, ClienteId = 1, Total = 100m, Estado = "Pendiente" };
         var pago = new Pago { PedidoId = 1, Monto = 60m, Metodo = "Efectivo", Referencia = "REC-001" };
-        pagoRepo.Setup(r => r.ObtenerPorPedidoIdAsync(1)).ReturnsAsync([new Pago { PedidoId = 1, Monto = 40m }]);
+        // Tras persistir, la consulta de pagos del pedido devuelve el previo (40) más el nuevo (60).
+        pagoRepo.Setup(r => r.ObtenerPorPedidoIdAsync(1)).ReturnsAsync([new Pago { PedidoId = 1, Monto = 40m }, pago]);
         pedidoRepo.Setup(r => r.ObtenerPorIdAsync(1)).ReturnsAsync(pedido);
         var service = new PagoService(pagoRepo.Object, pedidoRepo.Object);
 
@@ -38,6 +39,28 @@ public class PagoServiceTests
         Assert.Equal("Pagado", pedido.Estado);
         pedidoRepo.Verify(r => r.ActualizarAsync(pedido), Times.Once);
         pagoRepo.Verify(r => r.AgregarAsync(pago), Times.Once);
+    }
+
+    [Fact]
+    public async Task EliminarAsync_CuandoPagosRestantesNoCubrenTotal_RevierteEstadoAPendiente()
+    {
+        // Arrange
+        var pagoRepo = new Mock<IPagoRepository>();
+        var pedidoRepo = new Mock<IPedidoRepository>();
+        var pedido = new Pedido { Id = 1, ClienteId = 1, Total = 100m, Estado = "Pagado" };
+        pagoRepo.Setup(r => r.ObtenerPorIdAsync(5)).ReturnsAsync(new Pago { Id = 5, PedidoId = 1, Monto = 100m });
+        // Tras eliminar el pago, no quedan pagos para el pedido.
+        pagoRepo.Setup(r => r.ObtenerPorPedidoIdAsync(1)).ReturnsAsync([]);
+        pedidoRepo.Setup(r => r.ObtenerPorIdAsync(1)).ReturnsAsync(pedido);
+        var service = new PagoService(pagoRepo.Object, pedidoRepo.Object);
+
+        // Act
+        await service.EliminarAsync(5);
+
+        // Assert
+        Assert.Equal("Pendiente", pedido.Estado);
+        pedidoRepo.Verify(r => r.ActualizarAsync(pedido), Times.Once);
+        pagoRepo.Verify(r => r.EliminarAsync(5), Times.Once);
     }
 
     [Fact]

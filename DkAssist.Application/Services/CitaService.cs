@@ -14,15 +14,29 @@ namespace DkAssist.Application.Services
         /// <summary>Devuelve una cita por su identificador, o <c>null</c> si no existe.</summary>
         public Task<Cita?> ObtenerPorIdAsync(int id) => repo.ObtenerPorIdAsync(id);
 
-        /// <summary>Persiste una cita nueva.</summary>
+        /// <summary>Persiste una cita nueva. Exige que la fecha y hora sean futuras.</summary>
+        /// <exception cref="InvalidOperationException">Si <see cref="Cita.FechaHora"/> no es futura.</exception>
         public Task AgregarAsync(Cita cita)
         {
-            cita.FechaHora = cita.FechaHora == default ? DateTime.UtcNow : cita.FechaHora;
+            if (cita.FechaHora <= DateTime.UtcNow)
+            {
+                throw new InvalidOperationException("La fecha y hora de la cita debe ser futura.");
+            }
+
             return repo.AgregarAsync(cita);
         }
 
-        /// <summary>Actualiza los datos de una cita existente.</summary>
-        public Task ActualizarAsync(Cita cita) => repo.ActualizarAsync(cita);
+        /// <summary>Actualiza los datos de una cita existente. Exige que la fecha y hora sean futuras.</summary>
+        /// <exception cref="InvalidOperationException">Si <see cref="Cita.FechaHora"/> no es futura.</exception>
+        public Task ActualizarAsync(Cita cita)
+        {
+            if (cita.FechaHora <= DateTime.UtcNow)
+            {
+                throw new InvalidOperationException("La fecha y hora de la cita debe ser futura.");
+            }
+
+            return repo.ActualizarAsync(cita);
+        }
 
         /// <summary>Elimina la cita con el identificador indicado, si existe.</summary>
         public Task EliminarAsync(int id) => repo.EliminarAsync(id);

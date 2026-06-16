@@ -21,6 +21,7 @@ namespace DkAssist.Infrastructure.Repositories
         /// <inheritdoc/>
         public async Task<MovimientoStock?> ObtenerPorIdAsync(int id) =>
             await context.MovimientosStock
+                .AsNoTracking()
                 .Include(m => m.Producto)
                 .FirstOrDefaultAsync(m => m.Id == id)
                 .ConfigureAwait(false);

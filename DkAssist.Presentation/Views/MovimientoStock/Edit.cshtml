@@ -3,6 +3,11 @@
 
 <h1>Editar movimiento</h1>
 
+<div class="alert alert-info" role="alert">
+    Al editar un movimiento, el stock del producto se recalcula: se revierte el efecto anterior y se aplica el nuevo.
+    Los movimientos de tipo <strong>Ajuste</strong> fijan un valor absoluto y no son reversibles automáticamente.
+</div>
+
 <form asp-action="Edit" method="post" class="col-md-6" novalidate>
     <input type="hidden" asp-for="Id" />
     <input type="hidden" asp-for="Fecha" />

@@ -1,25 +1,25 @@
-﻿@model ErrorViewModel
+@model ErrorViewModel
 @{
-    ViewData["Title"] = "Error";
+    var esNoEncontrado = Model.StatusCode == 404;
+    ViewData["Title"] = esNoEncontrado ? "Página no encontrada" : "Error";
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
-
-@if (Model.ShowRequestId)
+@if (esNoEncontrado)
 {
-    <p>
-        <strong>Request ID:</strong> <code>@Model.RequestId</code>
-    </p>
+    <h1 class="text-danger">Página no encontrada</h1>
+    <p class="lead">La página que buscas no existe o fue movida.</p>
+}
+else
+{
+    <h1 class="text-danger">Ocurrió un error</h1>
+    <p class="lead">Hubo un problema al procesar tu solicitud. Intenta de nuevo en unos momentos.</p>
+
+    @if (Model.ShowRequestId)
+    {
+        <p class="text-muted">
+            <strong>Identificador de la solicitud:</strong> <code>@Model.RequestId</code>
+        </p>
+    }
 }
 
-<h3>Development Mode</h3>
-<p>
-    Swapping to <strong>Development</strong> environment will display more detailed information about the error that occurred.
-</p>
-<p>
-    <strong>The Development environment shouldn't be enabled for deployed applications.</strong>
-    It can result in displaying sensitive information from exceptions to end users.
-    For local debugging, enable the <strong>Development</strong> environment by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong>
-    and restarting the app.
-</p>
+<a asp-controller="Dashboard" asp-action="Index" class="btn btn-primary">Volver al inicio</a>

@@ -1,3 +1,12 @@
+:root {
+  --color-primary: #1f4d6b;
+  --color-accent: #e07a3f;
+  --color-surface: #f6f8fa;
+  --color-text: #1c2733;
+  --font-display: "Poppins", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+}
+
 html {
   font-size: 14px;
 }
@@ -6,6 +15,37 @@ html {
   html {
     font-size: 16px;
   }
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background-color: var(--color-surface);
+}
+
+h1, h2, h3, h4, h5, h6, .navbar-brand {
+  font-family: var(--font-display);
+}
+
+.navbar-brand {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.btn-primary {
+  --bs-btn-bg: var(--color-primary);
+  --bs-btn-border-color: var(--color-primary);
+  --bs-btn-hover-bg: #173b53;
+  --bs-btn-hover-border-color: #173b53;
+  --bs-btn-active-bg: #173b53;
+  --bs-btn-active-border-color: #173b53;
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--color-primary);
+  --bs-btn-border-color: var(--color-primary);
+  --bs-btn-hover-bg: var(--color-primary);
+  --bs-btn-hover-border-color: var(--color-primary);
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {

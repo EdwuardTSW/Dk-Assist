@@ -3,6 +3,7 @@ using DkAssist.Domain.Models;
 using DkAssist.Presentation.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace DkAssist.Presentation.Controllers
 {
@@ -93,8 +94,16 @@ namespace DkAssist.Presentation.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await service.EliminarAsync(id);
-            TempData["Success"] = "Pedido eliminado correctamente";
+            try
+            {
+                await service.EliminarAsync(id);
+                TempData["Success"] = "Pedido eliminado correctamente";
+            }
+            catch (DbUpdateException)
+            {
+                TempData["Error"] = "No se puede eliminar este pedido porque tiene pagos asociados.";
+            }
+
             return RedirectToAction(nameof(Index));
         }
 

@@ -34,32 +34,40 @@
     </div>
 
     <h2 class="h4">Productos</h2>
-    @for (var i = 0; i < Model.Items.Count; i++)
-    {
-        <input type="hidden" asp-for="Items[i].Id" />
-        <div class="row g-2 align-items-end mb-2">
-            <div class="col-md-6">
-                <label asp-for="Items[i].ProductoId" class="form-label"></label>
-                <select asp-for="Items[i].ProductoId" asp-items="Model.Productos" class="form-select">
-                    <option value="0">Selecciona un producto</option>
-                </select>
-                <span asp-validation-for="Items[i].ProductoId" class="text-danger" role="alert"></span>
+    <div class="items-container">
+        @for (var i = 0; i < Model.Items.Count; i++)
+        {
+            <div class="row g-2 align-items-end mb-2 item-row">
+                <input type="hidden" asp-for="Items[i].Id" />
+                <div class="col-md-5">
+                    <label asp-for="Items[i].ProductoId" class="form-label"></label>
+                    <select asp-for="Items[i].ProductoId" asp-items="Model.Productos" class="form-select">
+                        <option value="0">Selecciona un producto</option>
+                    </select>
+                    <span asp-validation-for="Items[i].ProductoId" class="text-danger" role="alert"></span>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Items[i].Cantidad" class="form-label"></label>
+                    <input asp-for="Items[i].Cantidad" type="number" min="1" class="form-control" inputmode="numeric" />
+                    <span asp-validation-for="Items[i].Cantidad" class="text-danger" role="alert"></span>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Items[i].PrecioUnitario" class="form-label"></label>
+                    <input asp-for="Items[i].PrecioUnitario" class="form-control" inputmode="decimal" />
+                    <span asp-validation-for="Items[i].PrecioUnitario" class="text-danger" role="alert"></span>
+                </div>
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-outline-danger w-100 remove-item" aria-label="Quitar este producto">&times;</button>
+                </div>
             </div>
-            <div class="col-md-3">
-                <label asp-for="Items[i].Cantidad" class="form-label"></label>
-                <input asp-for="Items[i].Cantidad" type="number" min="1" class="form-control" inputmode="numeric" />
-                <span asp-validation-for="Items[i].Cantidad" class="text-danger" role="alert"></span>
-            </div>
-            <div class="col-md-3">
-                <label asp-for="Items[i].PrecioUnitario" class="form-label"></label>
-                <input asp-for="Items[i].PrecioUnitario" class="form-control" inputmode="decimal" />
-                <span asp-validation-for="Items[i].PrecioUnitario" class="text-danger" role="alert"></span>
-            </div>
-        </div>
-    }
+        }
+    </div>
+    <button type="button" class="btn btn-outline-secondary mb-3 add-item">+ Agregar producto</button>
 
-    <button type="submit" class="btn btn-primary">Guardar cambios</button>
-    <a asp-action="Index" class="btn btn-link">Cancelar</a>
+    <div>
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        <a asp-action="Index" class="btn btn-link">Cancelar</a>
+    </div>
 </form>
 
 @section Scripts { <partial name="_ValidationScriptsPartial" /> }

@@ -11,6 +11,11 @@
     <div class="alert alert-success" role="alert" aria-live="polite">@msg</div>
 }
 
+@if (TempData["Error"] is string err)
+{
+    <div class="alert alert-danger" role="alert" aria-live="assertive">@err</div>
+}
+
 @if (!Model.Any())
 {
     <p class="text-muted">Aún no hay clientes registrados. Crea el primero con el botón "Nuevo cliente".</p>
