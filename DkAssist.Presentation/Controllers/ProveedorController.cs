@@ -93,11 +93,11 @@ namespace DkAssist.Presentation.Controllers
 
         private static Proveedor ToEntity(ProveedorViewModel viewModel) => new()
         {
-            Id = viewModel.Id,
-            Nombre = viewModel.Nombre,
-            Contacto = viewModel.Contacto,
-            Telefono = viewModel.Telefono,
-            Email = viewModel.Email
+            Id       = viewModel.Id,
+            Nombre   = viewModel.Nombre,
+            Contacto = viewModel.Contacto ?? string.Empty,
+            Telefono = viewModel.Telefono ?? string.Empty,
+            Email    = viewModel.Email    ?? string.Empty
         };
     }
 }

@@ -31,7 +31,7 @@ namespace DkAssist.Presentation.Controllers
         /// <summary>Formulario de creación.</summary>
         public async Task<IActionResult> Create()
         {
-            var viewModel = new PedidoViewModel { Fecha = DateTime.UtcNow, FechaEntrega = DateTime.UtcNow.AddDays(1) };
+            var viewModel = new PedidoViewModel { Fecha = DateTime.UtcNow };
             await PopulateListsAsync(viewModel);
             return View(viewModel);
         }
@@ -115,6 +115,7 @@ namespace DkAssist.Presentation.Controllers
 
             viewModel.Clientes = clientesTask.Result.Select(c => new SelectListItem(c.Nombre, c.Id.ToString())).ToList();
             viewModel.Productos = productosTask.Result.Select(p => new SelectListItem($"{p.Nombre} ({p.SKU})", p.Id.ToString())).ToList();
+            viewModel.ProductoPrecios = productosTask.Result.ToDictionary(p => p.Id, p => p.Precio);
             if (viewModel.Items.Count == 0) viewModel.Items.Add(new PedidoItemViewModel());
         }
 

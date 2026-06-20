@@ -1,18 +1,68 @@
 @model DkAssist.Presentation.Models.ProductoViewModel
+@using DkAssist.Domain.Models
 @{ ViewData["Title"] = "Detalle del producto"; }
 
-<h1>@Model.Nombre</h1>
+<div class="d-flex align-items-center gap-3 mb-4">
+    <div class="producto-icono flex-shrink-0">
+        @if (Model.ImagenPath is not null)
+        {
+            <img src="@Model.ImagenPath" alt="@Model.Nombre" class="producto-imagen" />
+        }
+        else
+        {
+            <partial name="_ProductoIcono" model="Model.Categoria" />
+        }
+    </div>
+    <div>
+        <h1 class="mb-0">@Model.Nombre</h1>
+        <span class="badge text-bg-secondary">@Model.Categoria</span>
+        <span class="badge text-bg-light text-muted ms-1" translate="no">@Model.SKU</span>
+    </div>
+</div>
 
-<div class="card col-md-6">
+<div class="card col-lg-8 mb-3">
     <div class="card-body">
         <dl class="row mb-0">
-            <dt class="col-sm-3">SKU</dt><dd class="col-sm-9 text-break" translate="no">@Model.SKU</dd>
-            <dt class="col-sm-3">Descripción</dt><dd class="col-sm-9 text-break">@Model.Descripcion</dd>
-            <dt class="col-sm-3">Precio</dt><dd class="col-sm-9">@Model.Precio.ToString("C")</dd>
-            <dt class="col-sm-3">Stock</dt><dd class="col-sm-9">@Model.Stock</dd>
+            <dt class="col-sm-3">Descripción</dt>
+            <dd class="col-sm-9 text-break">@Model.Descripcion</dd>
+
+            <dt class="col-sm-3">Precio</dt>
+            <dd class="col-sm-9">@Model.Precio.ToString("C")</dd>
+
+            <dt class="col-sm-3">Stock</dt>
+            <dd class="col-sm-9">
+                @(Model.Stock == 0 ? "Indefinido" : Model.Stock.ToString())
+            </dd>
         </dl>
     </div>
 </div>
+
+@if (Model.Caracteristicas.Count > 0)
+{
+    <div class="card col-lg-8 mb-3">
+        <div class="card-header fw-semibold">Características</div>
+        <div class="card-body p-0">
+            <table class="table table-sm mb-0">
+                <caption class="visually-hidden">Características del producto</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Característica</th>
+                        <th scope="col">Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var c in Model.Caracteristicas)
+                    {
+                        <tr>
+                            <td>@c.Nombre</td>
+                            <td>@c.Valor</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
 
 <div class="mt-3">
     <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Editar</a>

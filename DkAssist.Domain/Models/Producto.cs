@@ -11,5 +11,8 @@ namespace DkAssist.Domain.Models
         public decimal Precio { get; set; }
         public int Stock { get; set; }
         public string SKU { get; set; } = string.Empty;
+        public ProductoCategoria Categoria { get; set; } = ProductoCategoria.General;
+        public string? ImagenPath { get; set; }
+        public List<ProductoCaracteristica> Caracteristicas { get; set; } = [];
     }
 }

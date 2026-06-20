@@ -8,8 +8,8 @@
     <div class="card-body">
         <dl class="row mb-0">
             <dt class="col-sm-3">Nombre</dt><dd class="col-sm-9 text-break">@Model.Nombre</dd>
-            <dt class="col-sm-3">Contacto</dt><dd class="col-sm-9 text-break">@Model.Contacto</dd>
-            <dt class="col-sm-3">Email</dt><dd class="col-sm-9 text-break">@Model.Email</dd>
+            <dt class="col-sm-3">Contacto</dt><dd class="col-sm-9 text-break">@(string.IsNullOrWhiteSpace(Model.Contacto) ? "-" : Model.Contacto)</dd>
+            <dt class="col-sm-3">Email</dt><dd class="col-sm-9 text-break">@(string.IsNullOrWhiteSpace(Model.Email) ? "-" : Model.Email)</dd>
         </dl>
     </div>
 </div>

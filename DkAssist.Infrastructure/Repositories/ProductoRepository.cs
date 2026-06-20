@@ -16,7 +16,10 @@ namespace DkAssist.Infrastructure.Repositories
 
         /// <inheritdoc/>
         public async Task<Producto?> ObtenerPorIdAsync(int id) =>
-            await context.Productos.FindAsync(id).ConfigureAwait(false);
+            await context.Productos
+                .Include(p => p.Caracteristicas)
+                .FirstOrDefaultAsync(p => p.Id == id)
+                .ConfigureAwait(false);
 
         /// <inheritdoc/>
         public async Task AgregarAsync(Producto producto)
@@ -28,7 +31,29 @@ namespace DkAssist.Infrastructure.Repositories
         /// <inheritdoc/>
         public async Task ActualizarAsync(Producto producto)
         {
-            context.Productos.Update(producto);
+            var existing = await context.Productos
+                .Include(p => p.Caracteristicas)
+                .FirstOrDefaultAsync(p => p.Id == producto.Id)
+                .ConfigureAwait(false);
+            if (existing is null) return;
+
+            if (ReferenceEquals(existing, producto))
+            {
+                await context.SaveChangesAsync().ConfigureAwait(false);
+                return;
+            }
+
+            existing.Nombre = producto.Nombre;
+            existing.Descripcion = producto.Descripcion;
+            existing.Precio = producto.Precio;
+            existing.Stock = producto.Stock;
+            existing.SKU = producto.SKU;
+            existing.Categoria = producto.Categoria;
+            existing.ImagenPath = producto.ImagenPath;
+
+            context.ProductoCaracteristicas.RemoveRange(existing.Caracteristicas);
+            existing.Caracteristicas = producto.Caracteristicas;
+
             await context.SaveChangesAsync().ConfigureAwait(false);
         }
 

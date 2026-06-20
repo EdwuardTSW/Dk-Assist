@@ -1,4 +1,7 @@
 using System.ComponentModel.DataAnnotations;
+using DkAssist.Domain.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace DkAssist.Presentation.Models
 {
@@ -27,9 +30,36 @@ namespace DkAssist.Presentation.Models
         [Display(Name = "Stock")]
         public int Stock { get; set; }
 
-        [Required(ErrorMessage = "El SKU es obligatorio")]
-        [StringLength(50, ErrorMessage = "El SKU no debe exceder 50 caracteres")]
         [Display(Name = "SKU")]
         public string SKU { get; set; } = string.Empty;
+
+        [Display(Name = "Categoría")]
+        public ProductoCategoria Categoria { get; set; } = ProductoCategoria.General;
+
+        [ValidateNever]
+        [Display(Name = "Imagen")]
+        public string? ImagenPath { get; set; }
+
+        [ValidateNever]
+        public IFormFile? Imagen { get; set; }
+
+        public List<ProductoCaracteristicaViewModel> Caracteristicas { get; set; } = [];
+    }
+
+    /// <summary>
+    /// Atributo clave-valor capturado para un producto.
+    /// Las filas con ambos campos vacíos se descartan al guardar.
+    /// </summary>
+    public class ProductoCaracteristicaViewModel
+    {
+        public int Id { get; set; }
+
+        [StringLength(100, ErrorMessage = "No debe exceder 100 caracteres")]
+        [Display(Name = "Característica")]
+        public string Nombre { get; set; } = string.Empty;
+
+        [StringLength(250, ErrorMessage = "No debe exceder 250 caracteres")]
+        [Display(Name = "Valor")]
+        public string Valor { get; set; } = string.Empty;
     }
 }

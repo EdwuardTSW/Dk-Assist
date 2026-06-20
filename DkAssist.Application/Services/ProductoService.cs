@@ -8,6 +8,22 @@ namespace DkAssist.Application.Services
     /// </summary>
     public class ProductoService(IProductoRepository repo)
     {
+        private static readonly Dictionary<ProductoCategoria, string> CategoriaPrefijos = new()
+        {
+            [ProductoCategoria.General]      = "GEN",
+            [ProductoCategoria.Prendas]      = "PRE",
+            [ProductoCategoria.Alimentos]    = "ALI",
+            [ProductoCategoria.Artefactos]   = "ART",
+            [ProductoCategoria.Electronica]  = "ELC",
+            [ProductoCategoria.Muebles]      = "MUE",
+            [ProductoCategoria.Cosmeticos]   = "COS",
+            [ProductoCategoria.Herramientas] = "HER",
+            [ProductoCategoria.Libros]       = "LIB",
+            [ProductoCategoria.Juguetes]     = "JUG",
+            [ProductoCategoria.Deportes]     = "DEP",
+            [ProductoCategoria.Otros]        = "OTR",
+        };
+
         /// <summary>Devuelve todos los productos registrados.</summary>
         public Task<List<Producto>> ObtenerTodosAsync() => repo.ObtenerTodosAsync();
 
@@ -22,5 +38,27 @@ namespace DkAssist.Application.Services
 
         /// <summary>Elimina el producto con el identificador indicado, si existe.</summary>
         public Task EliminarAsync(int id) => repo.EliminarAsync(id);
+
+        /// <summary>
+        /// Genera el siguiente SKU disponible para la categoría indicada
+        /// con el formato <c>CAT-NNNN</c> (ej. PRE-0003).
+        /// </summary>
+        public async Task<string> GenerarSKUAsync(ProductoCategoria categoria)
+        {
+            var prefix = CategoriaPrefijos[categoria];
+            var productos = await repo.ObtenerTodosAsync().ConfigureAwait(false);
+
+            var maxNum = productos
+                .Where(p => p.SKU.StartsWith(prefix + "-", StringComparison.OrdinalIgnoreCase))
+                .Select(p =>
+                {
+                    var part = p.SKU[(prefix.Length + 1)..];
+                    return int.TryParse(part, out var n) ? n : 0;
+                })
+                .DefaultIfEmpty(0)
+                .Max();
+
+            return $"{prefix}-{maxNum + 1:D4}";
+        }
     }
 }

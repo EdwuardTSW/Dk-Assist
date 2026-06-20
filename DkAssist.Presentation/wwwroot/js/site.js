@@ -11,7 +11,7 @@
                 ["name", "id", "for", "data-valmsg-for"].forEach(function (attr) {
                     const value = el.getAttribute(attr);
                     if (value) {
-                        el.setAttribute(attr, value.replace(/Items(\[|_)\d+(\]|__)/, "Items$1" + index + "$2"));
+                        el.setAttribute(attr, value.replace(/([A-Za-z]+)(\[|_)\d+(\]|__)/, "$1$2" + index + "$3"));
                     }
                 });
             });

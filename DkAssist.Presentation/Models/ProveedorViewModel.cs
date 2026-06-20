@@ -14,21 +14,18 @@ namespace DkAssist.Presentation.Models
         [Display(Name = "Nombre")]
         public string Nombre { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "El contacto es obligatorio")]
         [StringLength(100, MinimumLength = 2, ErrorMessage = "El contacto debe tener entre 2 y 100 caracteres")]
         [Display(Name = "Contacto")]
-        public string Contacto { get; set; } = string.Empty;
+        public string? Contacto { get; set; }
 
-        [Required(ErrorMessage = "El teléfono es obligatorio")]
         [Phone(ErrorMessage = "Teléfono inválido")]
         [StringLength(20, ErrorMessage = "El teléfono no debe exceder 20 caracteres")]
         [Display(Name = "Teléfono")]
-        public string Telefono { get; set; } = string.Empty;
+        public string? Telefono { get; set; }
 
-        [Required(ErrorMessage = "El email es obligatorio")]
         [EmailAddress(ErrorMessage = "Email inválido")]
         [StringLength(150, ErrorMessage = "El email no debe exceder 150 caracteres")]
         [Display(Name = "Email")]
-        public string Email { get; set; } = string.Empty;
+        public string? Email { get; set; }
     }
 }

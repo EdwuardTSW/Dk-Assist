@@ -1,0 +1,98 @@
+@model DkAssist.Domain.Models.ProductoCategoria
+@{
+    var (color, titulo) = Model switch
+    {
+        ProductoCategoria.Prendas      => ("#6366f1", "Prendas"),
+        ProductoCategoria.Alimentos    => ("#f59e0b", "Alimentos"),
+        ProductoCategoria.Artefactos   => ("#64748b", "Artefactos"),
+        ProductoCategoria.Electronica  => ("#3b82f6", "Electrónica"),
+        ProductoCategoria.Muebles      => ("#92400e", "Muebles"),
+        ProductoCategoria.Cosmeticos   => ("#ec4899", "Cosméticos"),
+        ProductoCategoria.Herramientas => ("#78716c", "Herramientas"),
+        ProductoCategoria.Libros       => ("#10b981", "Libros"),
+        ProductoCategoria.Juguetes     => ("#f97316", "Juguetes"),
+        ProductoCategoria.Deportes     => ("#22c55e", "Deportes"),
+        ProductoCategoria.Otros        => ("#94a3b8", "Otros"),
+        _                              => ("#94a3b8", "General"),
+    };
+}
+
+@switch (Model)
+{
+    case ProductoCategoria.Prendas:
+        <svg viewBox="0 0 24 24" fill="none" stroke="@color" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="@titulo">
+            <path d="M6 2 3 7l3 1v12h12V8l3-1-3-5-3 1.5A3 3 0 0 1 12 5a3 3 0 0 1-3-1.5L6 2z"/>
+        </svg>
+        break;
+
+    case ProductoCategoria.Alimentos:
+        <svg viewBox="0 0 24 24" fill="none" stroke="@color" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="@titulo">
+            <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/>
+            <line x1="7" y1="2" x2="7" y2="11"/>
+            <path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h1"/>
+            <line x1="3" y1="22" x2="21" y2="22"/>
+            <line x1="3" y1="17" x2="3" y2="22"/>
+            <line x1="21" y1="15" x2="21" y2="22"/>
+        </svg>
+        break;
+
+    case ProductoCategoria.Artefactos:
+        <svg viewBox="0 0 24 24" fill="none" stroke="@color" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="@titulo">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+        break;
+
+    case ProductoCategoria.Electronica:
+        <svg viewBox="0 0 24 24" fill="none" stroke="@color" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="@titulo">
+            <polyline points="13 2 13 9 22 9 11 22 11 15 2 15 13 2"/>
+        </svg>
+        break;
+
+    case ProductoCategoria.Muebles:
+        <svg viewBox="0 0 24 24" fill="none" stroke="@color" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="@titulo">
+            <path d="M20 10V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v3"/>
+            <path d="M4 10h16a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2z"/>
+            <line x1="6" y1="17" x2="6" y2="21"/>
+            <line x1="18" y1="17" x2="18" y2="21"/>
+        </svg>
+        break;
+
+    case ProductoCategoria.Cosmeticos:
+        <svg viewBox="0 0 24 24" fill="none" stroke="@color" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="@titulo">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        break;
+
+    case ProductoCategoria.Herramientas:
+        <svg viewBox="0 0 24 24" fill="none" stroke="@color" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="@titulo">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+        </svg>
+        break;
+
+    case ProductoCategoria.Libros:
+        <svg viewBox="0 0 24 24" fill="none" stroke="@color" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="@titulo">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </svg>
+        break;
+
+    case ProductoCategoria.Juguetes:
+        <svg viewBox="0 0 24 24" fill="none" stroke="@color" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="@titulo">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>
+        break;
+
+    case ProductoCategoria.Deportes:
+        <svg viewBox="0 0 24 24" fill="none" stroke="@color" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="@titulo">
+            <circle cx="12" cy="8" r="6"/>
+            <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
+        </svg>
+        break;
+
+    default:
+        <svg viewBox="0 0 24 24" fill="none" stroke="@color" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="@titulo">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+        </svg>
+        break;
+}

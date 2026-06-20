@@ -4,12 +4,28 @@
 <h1 class="text-danger">¿Eliminar este producto?</h1>
 <p>Esta acción no se puede deshacer.</p>
 
+<div class="d-flex align-items-center gap-3 mb-3">
+    <div class="producto-icono flex-shrink-0">
+        @if (Model.ImagenPath is not null)
+        {
+            <img src="@Model.ImagenPath" alt="@Model.Nombre" class="producto-imagen" />
+        }
+        else
+        {
+            <partial name="_ProductoIcono" model="Model.Categoria" />
+        }
+    </div>
+    <div>
+        <p class="fw-semibold mb-0">@Model.Nombre</p>
+        <small class="text-muted">@Model.Categoria · @Model.SKU</small>
+    </div>
+</div>
+
 <div class="card col-md-6 mb-3">
     <div class="card-body">
         <dl class="row mb-0">
-            <dt class="col-sm-3">Nombre</dt><dd class="col-sm-9 text-break">@Model.Nombre</dd>
-            <dt class="col-sm-3">SKU</dt><dd class="col-sm-9 text-break" translate="no">@Model.SKU</dd>
             <dt class="col-sm-3">Precio</dt><dd class="col-sm-9">@Model.Precio.ToString("C")</dd>
+            <dt class="col-sm-3">Stock</dt><dd class="col-sm-9">@(Model.Stock == 0 ? "Indefinido" : Model.Stock.ToString())</dd>
         </dl>
     </div>
 </div>

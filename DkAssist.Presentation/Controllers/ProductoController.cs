@@ -8,8 +8,10 @@ namespace DkAssist.Presentation.Controllers
     /// <summary>
     /// Endpoints CRUD para el módulo Productos.
     /// </summary>
-    public class ProductoController(ProductoService service) : Controller
+    public class ProductoController(ProductoService service, IWebHostEnvironment env) : Controller
     {
+        private static readonly string[] ImagenesPermitidas = [".jpg", ".jpeg", ".png", ".gif", ".webp"];
+
         /// <summary>Lista todos los productos.</summary>
         public async Task<IActionResult> Index()
         {
@@ -27,7 +29,15 @@ namespace DkAssist.Presentation.Controllers
         }
 
         /// <summary>Formulario de creación.</summary>
-        public IActionResult Create() => View(new ProductoViewModel());
+        public async Task<IActionResult> Create()
+        {
+            var viewModel = new ProductoViewModel
+            {
+                SKU = await service.GenerarSKUAsync(ProductoCategoria.General),
+                Caracteristicas = [new()]
+            };
+            return View(viewModel);
+        }
 
         /// <summary>Crea un producto.</summary>
         [HttpPost]
@@ -36,7 +46,9 @@ namespace DkAssist.Presentation.Controllers
         {
             if (!ModelState.IsValid) return View(viewModel);
 
-            await service.AgregarAsync(ToEntity(viewModel));
+            var entity = ToEntity(viewModel);
+            entity.ImagenPath = await GuardarImagenAsync(viewModel.Imagen);
+            await service.AgregarAsync(entity);
             TempData["Success"] = "Producto creado correctamente";
             return RedirectToAction(nameof(Index));
         }
@@ -47,7 +59,11 @@ namespace DkAssist.Presentation.Controllers
             var producto = await service.ObtenerPorIdAsync(id);
             if (producto is null) return NotFound();
 
-            return View(ToViewModel(producto));
+            var viewModel = ToViewModel(producto);
+            if (viewModel.Caracteristicas.Count == 0)
+                viewModel.Caracteristicas.Add(new());
+
+            return View(viewModel);
         }
 
         /// <summary>Actualiza un producto.</summary>
@@ -58,7 +74,12 @@ namespace DkAssist.Presentation.Controllers
             if (id != viewModel.Id) return BadRequest();
             if (!ModelState.IsValid) return View(viewModel);
 
-            await service.ActualizarAsync(ToEntity(viewModel));
+            var entity = ToEntity(viewModel);
+            entity.ImagenPath = viewModel.Imagen is not null
+                ? await GuardarImagenAsync(viewModel.Imagen)
+                : viewModel.ImagenPath;
+
+            await service.ActualizarAsync(entity);
             TempData["Success"] = "Producto actualizado correctamente";
             return RedirectToAction(nameof(Index));
         }
@@ -82,24 +103,67 @@ namespace DkAssist.Presentation.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private static ProductoViewModel ToViewModel(Producto producto) => new()
+        /// <summary>Genera el siguiente SKU para la categoría indicada (llamada AJAX).</summary>
+        [HttpGet]
+        public async Task<IActionResult> GenerarSKU(ProductoCategoria categoria)
         {
-            Id = producto.Id,
-            Nombre = producto.Nombre,
-            Descripcion = producto.Descripcion,
-            Precio = producto.Precio,
-            Stock = producto.Stock,
-            SKU = producto.SKU
+            var sku = await service.GenerarSKUAsync(categoria);
+            return Json(new { sku });
+        }
+
+        // ── Mapeo ────────────────────────────────────────────────────────────
+
+        private static ProductoViewModel ToViewModel(Producto p) => new()
+        {
+            Id          = p.Id,
+            Nombre      = p.Nombre,
+            Descripcion = p.Descripcion,
+            Precio      = p.Precio,
+            Stock       = p.Stock,
+            SKU         = p.SKU,
+            Categoria   = p.Categoria,
+            ImagenPath  = p.ImagenPath,
+            Caracteristicas = p.Caracteristicas.Select(c => new ProductoCaracteristicaViewModel
+            {
+                Id     = c.Id,
+                Nombre = c.Nombre,
+                Valor  = c.Valor
+            }).ToList()
         };
 
-        private static Producto ToEntity(ProductoViewModel viewModel) => new()
+        private static Producto ToEntity(ProductoViewModel vm) => new()
         {
-            Id = viewModel.Id,
-            Nombre = viewModel.Nombre,
-            Descripcion = viewModel.Descripcion,
-            Precio = viewModel.Precio,
-            Stock = viewModel.Stock,
-            SKU = viewModel.SKU
+            Id          = vm.Id,
+            Nombre      = vm.Nombre,
+            Descripcion = vm.Descripcion,
+            Precio      = vm.Precio,
+            Stock       = vm.Stock,
+            SKU         = vm.SKU,
+            Categoria   = vm.Categoria,
+            ImagenPath  = vm.ImagenPath,
+            Caracteristicas = vm.Caracteristicas
+                .Where(c => !string.IsNullOrWhiteSpace(c.Nombre) && !string.IsNullOrWhiteSpace(c.Valor))
+                .Select(c => new ProductoCaracteristica { Id = c.Id, Nombre = c.Nombre, Valor = c.Valor })
+                .ToList()
         };
+
+        private async Task<string?> GuardarImagenAsync(IFormFile? imagen)
+        {
+            if (imagen is null || imagen.Length == 0) return null;
+
+            var ext = Path.GetExtension(imagen.FileName).ToLowerInvariant();
+            if (!ImagenesPermitidas.Contains(ext)) return null;
+
+            var carpeta = Path.Combine(env.WebRootPath, "images", "productos");
+            Directory.CreateDirectory(carpeta);
+
+            var nombreArchivo = $"{Guid.NewGuid()}{ext}";
+            var rutaCompleta = Path.Combine(carpeta, nombreArchivo);
+
+            await using var stream = new FileStream(rutaCompleta, FileMode.Create);
+            await imagen.CopyToAsync(stream);
+
+            return $"/images/productos/{nombreArchivo}";
+        }
     }
 }

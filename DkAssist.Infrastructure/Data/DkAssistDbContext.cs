@@ -15,6 +15,9 @@ namespace DkAssist.Infrastructure.Data
         /// <summary>Acceso a la tabla <c>Productos</c>.</summary>
         public DbSet<Producto> Productos => Set<Producto>();
 
+        /// <summary>Acceso a la tabla <c>ProductoCaracteristicas</c>.</summary>
+        public DbSet<ProductoCaracteristica> ProductoCaracteristicas => Set<ProductoCaracteristica>();
+
         /// <summary>Acceso a la tabla <c>Proveedores</c>.</summary>
         public DbSet<Proveedor> Proveedores => Set<Proveedor>();
 
@@ -42,6 +45,12 @@ namespace DkAssist.Infrastructure.Data
         /// <inheritdoc/>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ProductoCaracteristica>()
+                .HasOne(c => c.Producto)
+                .WithMany(p => p.Caracteristicas)
+                .HasForeignKey(c => c.ProductoId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<Pedido>()
                 .HasOne(p => p.Cliente)
                 .WithMany()

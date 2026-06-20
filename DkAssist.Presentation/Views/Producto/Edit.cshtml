@@ -1,45 +1,87 @@
 @model DkAssist.Presentation.Models.ProductoViewModel
+@using DkAssist.Domain.Models
 @{ ViewData["Title"] = "Editar producto"; }
 
 <h1>Editar producto</h1>
 
-<form asp-action="Edit" method="post" class="col-md-6" novalidate>
+<form asp-action="Edit" method="post" enctype="multipart/form-data" class="col-lg-8" novalidate>
     <input type="hidden" asp-for="Id" />
-
+    <input type="hidden" asp-for="ImagenPath" />
     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
 
-    <div class="mb-3">
-        <label asp-for="Nombre" class="form-label"></label>
-        <input asp-for="Nombre" class="form-control" aria-describedby="Nombre-error" aria-invalid="@(ViewData.ModelState[nameof(Model.Nombre)]?.Errors.Count > 0 ? "true" : "false")" autocomplete="off" />
-        <span id="Nombre-error" asp-validation-for="Nombre" class="text-danger" role="alert"></span>
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="Nombre" class="form-label"></label>
+            <input asp-for="Nombre" class="form-control" autocomplete="off" />
+            <span asp-validation-for="Nombre" class="text-danger" role="alert"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="Categoria" class="form-label"></label>
+            <select asp-for="Categoria" asp-items="Html.GetEnumSelectList<ProductoCategoria>()" class="form-select"></select>
+        </div>
     </div>
 
     <div class="mb-3">
         <label asp-for="Descripcion" class="form-label"></label>
-        <textarea asp-for="Descripcion" class="form-control" aria-describedby="Descripcion-error" aria-invalid="@(ViewData.ModelState[nameof(Model.Descripcion)]?.Errors.Count > 0 ? "true" : "false")" autocomplete="off" rows="3"></textarea>
-        <span id="Descripcion-error" asp-validation-for="Descripcion" class="text-danger" role="alert"></span>
+        <textarea asp-for="Descripcion" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="Descripcion" class="text-danger" role="alert"></span>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <label asp-for="Precio" class="form-label"></label>
+            <input asp-for="Precio" class="form-control" inputmode="decimal" />
+            <span asp-validation-for="Precio" class="text-danger" role="alert"></span>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label asp-for="Stock" class="form-label"></label>
+            <input asp-for="Stock" class="form-control" inputmode="numeric" />
+        </div>
+        <div class="col-md-4 mb-3">
+            <label asp-for="SKU" class="form-label"></label>
+            <input asp-for="SKU" class="form-control" readonly />
+        </div>
     </div>
 
     <div class="mb-3">
-        <label asp-for="Precio" class="form-label"></label>
-        <input asp-for="Precio" class="form-control" aria-describedby="Precio-error" aria-invalid="@(ViewData.ModelState[nameof(Model.Precio)]?.Errors.Count > 0 ? "true" : "false")" autocomplete="off" inputmode="decimal" />
-        <span id="Precio-error" asp-validation-for="Precio" class="text-danger" role="alert"></span>
+        @if (Model.ImagenPath is not null)
+        {
+            <p class="mb-1 fw-semibold">Imagen actual</p>
+            <img src="@Model.ImagenPath" alt="Imagen del producto" class="producto-imagen mb-2" />
+        }
+        <label asp-for="Imagen" class="form-label">@(Model.ImagenPath is null ? "Imagen" : "Cambiar imagen")</label>
+        <input asp-for="Imagen" type="file" class="form-control" accept="image/*" />
+        <div class="form-text">Deja vacío para conservar la imagen actual.</div>
     </div>
 
-    <div class="mb-3">
-        <label asp-for="Stock" class="form-label"></label>
-        <input asp-for="Stock" class="form-control" aria-describedby="Stock-error" aria-invalid="@(ViewData.ModelState[nameof(Model.Stock)]?.Errors.Count > 0 ? "true" : "false")" autocomplete="off" inputmode="numeric" />
-        <span id="Stock-error" asp-validation-for="Stock" class="text-danger" role="alert"></span>
+    <h2 class="h5 mt-4">Características</h2>
+    <div class="items-container mb-2">
+        @for (var i = 0; i < Model.Caracteristicas.Count; i++)
+        {
+            <div class="row g-2 align-items-end mb-2 item-row">
+                <input type="hidden" asp-for="Caracteristicas[i].Id" />
+                <div class="col-md-5">
+                    <label asp-for="Caracteristicas[i].Nombre" class="form-label"></label>
+                    <input asp-for="Caracteristicas[i].Nombre" class="form-control" placeholder="ej. Color" />
+                    <span asp-validation-for="Caracteristicas[i].Nombre" class="text-danger" role="alert"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Caracteristicas[i].Valor" class="form-label"></label>
+                    <input asp-for="Caracteristicas[i].Valor" class="form-control" placeholder="ej. Rojo" />
+                    <span asp-validation-for="Caracteristicas[i].Valor" class="text-danger" role="alert"></span>
+                </div>
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-outline-danger w-100 remove-item" aria-label="Quitar">&times;</button>
+                </div>
+            </div>
+        }
     </div>
+    <button type="button" class="btn btn-outline-secondary btn-sm mb-4 add-item">+ Agregar característica</button>
 
-    <div class="mb-3">
-        <label asp-for="SKU" class="form-label"></label>
-        <input asp-for="SKU" class="form-control" aria-describedby="SKU-error" aria-invalid="@(ViewData.ModelState[nameof(Model.SKU)]?.Errors.Count > 0 ? "true" : "false")" autocomplete="off" />
-        <span id="SKU-error" asp-validation-for="SKU" class="text-danger" role="alert"></span>
+    <div>
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        <a asp-action="Index" class="btn btn-link">Cancelar</a>
     </div>
-
-    <button type="submit" class="btn btn-primary">Guardar cambios</button>
-    <a asp-action="Index" class="btn btn-link">Cancelar</a>
 </form>
 
 @section Scripts { <partial name="_ValidationScriptsPartial" /> }

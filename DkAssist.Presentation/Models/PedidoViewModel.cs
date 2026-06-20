@@ -44,6 +44,9 @@ namespace DkAssist.Presentation.Models
 
         [ValidateNever]
         public List<SelectListItem> Productos { get; set; } = [];
+
+        [ValidateNever]
+        public Dictionary<int, decimal> ProductoPrecios { get; set; } = [];
     }
 
     /// <summary>
