@@ -12,10 +12,33 @@
     <input type="hidden" asp-for="Id" />
     <input type="hidden" asp-for="Fecha" />
     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-    <div class="mb-3"><label asp-for="ProductoId" class="form-label"></label><select asp-for="ProductoId" asp-items="Model.Productos" class="form-select"><option value="0">Selecciona un producto</option></select><span asp-validation-for="ProductoId" class="text-danger" role="alert"></span></div>
-    <div class="mb-3"><label asp-for="Tipo" class="form-label"></label><select asp-for="Tipo" asp-items="Html.GetEnumSelectList<DkAssist.Domain.Models.MovimientoStockTipo>()" class="form-select"></select><span asp-validation-for="Tipo" class="text-danger" role="alert"></span></div>
-    <div class="mb-3"><label asp-for="Cantidad" class="form-label"></label><input asp-for="Cantidad" type="number" min="1" class="form-control" inputmode="numeric" /><span asp-validation-for="Cantidad" class="text-danger" role="alert"></span></div>
-    <div class="mb-3"><label asp-for="Motivo" class="form-label"></label><textarea asp-for="Motivo" class="form-control" rows="3"></textarea><span asp-validation-for="Motivo" class="text-danger" role="alert"></span></div>
+
+    <div class="mb-3">
+        <label asp-for="ProductoId" class="form-label"></label>
+        <select asp-for="ProductoId" asp-items="Model.Productos" class="form-select">
+            <option value="0">Selecciona un producto</option>
+        </select>
+        <span asp-validation-for="ProductoId" class="text-danger" role="alert"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Tipo" class="form-label"></label>
+        <select asp-for="Tipo" asp-items="Html.GetEnumSelectList<DkAssist.Domain.Models.MovimientoStockTipo>()" class="form-select"></select>
+        <span asp-validation-for="Tipo" class="text-danger" role="alert"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Cantidad" class="form-label"></label>
+        <input asp-for="Cantidad" type="number" min="1" class="form-control" inputmode="numeric" />
+        <span asp-validation-for="Cantidad" class="text-danger" role="alert"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Motivo" class="form-label"></label>
+        <textarea asp-for="Motivo" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="Motivo" class="text-danger" role="alert"></span>
+    </div>
+
     <button type="submit" class="btn btn-primary">Guardar cambios</button>
     <a asp-action="Index" class="btn btn-link">Cancelar</a>
 </form>

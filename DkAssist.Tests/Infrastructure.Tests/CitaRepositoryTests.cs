@@ -1,26 +1,15 @@
 using DkAssist.Domain.Models;
-using DkAssist.Infrastructure.Data;
 using DkAssist.Infrastructure.Repositories;
-using Microsoft.EntityFrameworkCore;
 
 namespace DkAssist.Tests.Infrastructure.Tests;
 
 public class CitaRepositoryTests
 {
-    private static DkAssistDbContext NewContext()
-    {
-        var options = new DbContextOptionsBuilder<DkAssistDbContext>()
-            .UseInMemoryDatabase(Guid.NewGuid().ToString())
-            .Options;
-
-        return new DkAssistDbContext(options);
-    }
-
     [Fact]
     public async Task AgregarAsync_ConCitaValida_PersisteEnBaseDeDatos()
     {
         // Arrange
-        using var context = NewContext();
+        using var context = InfrastructureTestHelper.NewContext();
         var cliente = new Cliente { Nombre = "Ana", Telefono = "555-1234", Email = "ana@example.com", Direccion = "Calle 1" };
         context.Clientes.Add(cliente);
         await context.SaveChangesAsync();

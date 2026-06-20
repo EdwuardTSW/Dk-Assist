@@ -2,5 +2,20 @@
 @{ ViewData["Title"] = "Detalle del movimiento"; }
 
 <h1>Movimiento @Model.Id</h1>
-<div class="card col-md-6"><div class="card-body"><dl class="row mb-0"><dt class="col-sm-3">Producto</dt><dd class="col-sm-9 text-break">@Model.ProductoNombre</dd><dt class="col-sm-3">Tipo</dt><dd class="col-sm-9">@Model.Tipo</dd><dt class="col-sm-3">Cantidad</dt><dd class="col-sm-9">@Model.Cantidad</dd><dt class="col-sm-3">Fecha</dt><dd class="col-sm-9">@Model.Fecha.ToLocalTime().ToString("g")</dd><dt class="col-sm-3">Motivo</dt><dd class="col-sm-9 text-break">@Model.Motivo</dd></dl></div></div>
-<div class="mt-3"><a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Editar</a><a asp-action="Index" class="btn btn-link">Volver</a></div>
+
+<div class="card col-md-6">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Producto</dt><dd class="col-sm-9 text-break">@Model.ProductoNombre</dd>
+            <dt class="col-sm-3">Tipo</dt><dd class="col-sm-9">@Model.Tipo</dd>
+            <dt class="col-sm-3">Cantidad</dt><dd class="col-sm-9">@Model.Cantidad</dd>
+            <dt class="col-sm-3">Fecha</dt><dd class="col-sm-9">@Model.Fecha.ToLocalTime().ToString("g")</dd>
+            <dt class="col-sm-3">Motivo</dt><dd class="col-sm-9 text-break">@Model.Motivo</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="mt-3">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Editar</a>
+    <a asp-action="Index" class="btn btn-link">Volver</a>
+</div>

@@ -29,12 +29,12 @@ namespace DkAssist.Application.Services
             await Task.WhenAll(clientesTask, pedidosTask, cotizacionesTask, productosTask, citasTask, pagosTask)
                 .ConfigureAwait(false);
 
-            var clientes = await clientesTask.ConfigureAwait(false);
-            var pedidos = await pedidosTask.ConfigureAwait(false);
-            var cotizaciones = await cotizacionesTask.ConfigureAwait(false);
-            var productos = await productosTask.ConfigureAwait(false);
-            var citas = await citasTask.ConfigureAwait(false);
-            var pagos = await pagosTask.ConfigureAwait(false);
+            var clientes = clientesTask.Result;
+            var pedidos = pedidosTask.Result;
+            var cotizaciones = cotizacionesTask.Result;
+            var productos = productosTask.Result;
+            var citas = citasTask.Result;
+            var pagos = pagosTask.Result;
 
             var now = DateTime.UtcNow;
             var inicioMes = new DateTime(now.Year, now.Month, 1, 0, 0, 0, DateTimeKind.Utc);

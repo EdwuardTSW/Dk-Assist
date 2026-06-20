@@ -14,8 +14,7 @@ namespace DkAssist.Presentation.Controllers
         public async Task<IActionResult> Index()
         {
             var productos = await service.ObtenerTodosAsync();
-            var viewModels = productos.Select(ToViewModel).ToList();
-            return View(viewModels);
+            return View(productos.Select(ToViewModel).ToList());
         }
 
         /// <summary>Detalle de un producto.</summary>

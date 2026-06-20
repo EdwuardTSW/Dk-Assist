@@ -1,26 +1,15 @@
 using DkAssist.Domain.Models;
-using DkAssist.Infrastructure.Data;
 using DkAssist.Infrastructure.Repositories;
-using Microsoft.EntityFrameworkCore;
 
 namespace DkAssist.Tests.Infrastructure.Tests;
 
 public class MovimientoStockRepositoryTests
 {
-    private static DkAssistDbContext NewContext()
-    {
-        var options = new DbContextOptionsBuilder<DkAssistDbContext>()
-            .UseInMemoryDatabase(Guid.NewGuid().ToString())
-            .Options;
-
-        return new DkAssistDbContext(options);
-    }
-
     [Fact]
     public async Task AgregarAsync_ConMovimientoValido_PersisteEnBaseDeDatos()
     {
         // Arrange
-        using var context = NewContext();
+        using var context = InfrastructureTestHelper.NewContext();
         var producto = new Producto { Nombre = "Agenda", Descripcion = "Agenda", Precio = 10m, Stock = 5, SKU = "AGD-001" };
         context.Productos.Add(producto);
         await context.SaveChangesAsync();

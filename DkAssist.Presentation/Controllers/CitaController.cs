@@ -119,7 +119,7 @@ namespace DkAssist.Presentation.Controllers
         {
             Id = viewModel.Id,
             ClienteId = viewModel.ClienteId,
-            FechaHora = viewModel.FechaHora == default ? DateTime.UtcNow : viewModel.FechaHora,
+            FechaHora = viewModel.FechaHora,
             Tipo = viewModel.Tipo,
             Notas = viewModel.Notas,
             Estado = viewModel.Estado

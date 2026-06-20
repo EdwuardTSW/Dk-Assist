@@ -1,26 +1,15 @@
 using DkAssist.Domain.Models;
-using DkAssist.Infrastructure.Data;
 using DkAssist.Infrastructure.Repositories;
-using Microsoft.EntityFrameworkCore;
 
 namespace DkAssist.Tests.Infrastructure.Tests;
 
 public class ProductoRepositoryTests
 {
-    private static DkAssistDbContext NewContext()
-    {
-        var options = new DbContextOptionsBuilder<DkAssistDbContext>()
-            .UseInMemoryDatabase(Guid.NewGuid().ToString())
-            .Options;
-
-        return new DkAssistDbContext(options);
-    }
-
     [Fact]
     public async Task AgregarAsync_ConProductoValido_PersisteEnBaseDeDatos()
     {
         // Arrange
-        using var context = NewContext();
+        using var context = InfrastructureTestHelper.NewContext();
         var repo = new ProductoRepository(context);
         var producto = new Producto
         {

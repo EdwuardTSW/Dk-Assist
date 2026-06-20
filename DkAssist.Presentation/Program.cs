@@ -42,7 +42,6 @@ app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
 app.UseHttpsRedirection();
 app.MapStaticAssets();
 app.UseRouting();
-app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

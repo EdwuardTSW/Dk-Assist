@@ -113,10 +113,8 @@ namespace DkAssist.Presentation.Controllers
             var productosTask = productoService.ObtenerTodosAsync();
             await Task.WhenAll(clientesTask, productosTask);
 
-            var clientes = await clientesTask;
-            var productos = await productosTask;
-            viewModel.Clientes = clientes.Select(c => new SelectListItem(c.Nombre, c.Id.ToString())).ToList();
-            viewModel.Productos = productos.Select(p => new SelectListItem($"{p.Nombre} ({p.SKU})", p.Id.ToString())).ToList();
+            viewModel.Clientes = clientesTask.Result.Select(c => new SelectListItem(c.Nombre, c.Id.ToString())).ToList();
+            viewModel.Productos = productosTask.Result.Select(p => new SelectListItem($"{p.Nombre} ({p.SKU})", p.Id.ToString())).ToList();
             if (viewModel.Items.Count == 0) viewModel.Items.Add(new PedidoItemViewModel());
         }
 
