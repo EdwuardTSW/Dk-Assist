@@ -3,7 +3,10 @@
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h1>Proveedores</h1>
-    <a class="btn btn-primary" asp-action="Create">Nuevo proveedor</a>
+    <div class="d-flex gap-2">
+        <a class="btn btn-outline-secondary" asp-action="CatalogoResurtido">Ver catálogo externo</a>
+        <a class="btn btn-primary" asp-action="Create">Nuevo proveedor</a>
+    </div>
 </div>
 
 @if (TempData["Success"] is string msg)
