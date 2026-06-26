@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="2.1.11" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DkAssist.Domain\DkAssist.Domain.csproj" />
   </ItemGroup>
 

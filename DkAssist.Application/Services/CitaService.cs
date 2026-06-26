@@ -1,3 +1,4 @@
+using DkAssist.Application.Observers;
 using DkAssist.Domain.Interfaces;
 using DkAssist.Domain.Models;
 
@@ -6,8 +7,10 @@ namespace DkAssist.Application.Services
     /// <summary>
     /// Casos de uso para la entidad Cita.
     /// </summary>
-    public class CitaService(ICitaRepository repo)
+    public class CitaService(ICitaRepository repo, IEnumerable<ICitaObserver>? observers = null)
     {
+        private readonly IEnumerable<ICitaObserver> observers = observers ?? [];
+
         /// <summary>Devuelve todas las citas registradas.</summary>
         public Task<List<Cita>> ObtenerTodosAsync() => repo.ObtenerTodosAsync();
 
@@ -28,14 +31,22 @@ namespace DkAssist.Application.Services
 
         /// <summary>Actualiza los datos de una cita existente. Exige que la fecha y hora sean futuras.</summary>
         /// <exception cref="InvalidOperationException">Si <see cref="Cita.FechaHora"/> no es futura.</exception>
-        public Task ActualizarAsync(Cita cita)
+        public async Task ActualizarAsync(Cita cita)
         {
             if (cita.FechaHora <= DateTime.UtcNow)
             {
                 throw new InvalidOperationException("La fecha y hora de la cita debe ser futura.");
             }
 
-            return repo.ActualizarAsync(cita);
+            await repo.ActualizarAsync(cita).ConfigureAwait(false);
+
+            if (string.Equals(cita.Estado, "Confirmada", StringComparison.OrdinalIgnoreCase))
+            {
+                foreach (var observer in observers)
+                {
+                    await observer.OnCitaConfirmadaAsync(cita).ConfigureAwait(false);
+                }
+            }
         }
 
         /// <summary>Elimina la cita con el identificador indicado, si existe.</summary>
