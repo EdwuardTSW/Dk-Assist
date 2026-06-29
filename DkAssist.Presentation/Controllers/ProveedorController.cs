@@ -1,7 +1,7 @@
-using System.Text.Json;
 using DkAssist.Application.Services;
 using DkAssist.Domain.Models;
 using DkAssist.Presentation.Models;
+using DkAssist.Presentation.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DkAssist.Presentation.Controllers
@@ -9,15 +9,8 @@ namespace DkAssist.Presentation.Controllers
     /// <summary>
     /// Endpoints CRUD para el módulo Proveedores y consulta del catálogo externo de resurtido.
     /// </summary>
-    public class ProveedorController(ProveedorService service, IHttpClientFactory httpClientFactory) : Controller
+    public class ProveedorController(ProveedorService service, ProveedorCatalogoClient catalogoClient) : Controller
     {
-        private const string ApiCatalogo = "https://fakestoreapi.com/products";
-
-        private static readonly JsonSerializerOptions JsonOpciones = new()
-        {
-            PropertyNameCaseInsensitive = true
-        };
-
         // ── Catálogo externo ─────────────────────────────────────────────────
 
         /// <summary>
@@ -26,23 +19,13 @@ namespace DkAssist.Presentation.Controllers
         /// </summary>
         public async Task<IActionResult> CatalogoResurtido()
         {
-            try
+            var result = await catalogoClient.ObtenerProductosAsync(HttpContext.RequestAborted);
+            if (result.UsandoFallback)
             {
-                var client = httpClientFactory.CreateClient();
-                var response = await client.GetAsync(ApiCatalogo);
-                response.EnsureSuccessStatusCode();
-
-                var json = await response.Content.ReadAsStringAsync();
-                var productos = JsonSerializer.Deserialize<List<ProveedorProducto>>(json, JsonOpciones)
-                                ?? [];
-
-                return View(productos);
+                ViewBag.Error = result.MensajeError;
             }
-            catch (HttpRequestException)
-            {
-                ViewBag.Error = "No se pudo conectar con el proveedor externo. Verifica tu conexión e intenta de nuevo.";
-                return View(new List<ProveedorProducto>());
-            }
+
+            return View(result.Productos);
         }
 
         // ── CRUD proveedores internos ────────────────────────────────────────

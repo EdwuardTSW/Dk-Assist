@@ -8,72 +8,50 @@
     <script type="importmap"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/DkAssist.Presentation.styles.css" asp-append-version="true" />
 </head>
 <body>
     <a href="#main-content" class="visually-hidden-focusable">Saltar al contenido</a>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" aria-label="Navegación principal">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">DkAssist</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Alternar navegación">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Cliente" asp-action="Index">Clientes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Producto" asp-action="Index">Productos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Proveedor" asp-action="Index">Proveedores</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Pedido" asp-action="Index">Pedidos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Cotizacion" asp-action="Index">Cotizaciones</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="MovimientoStock" asp-action="Index">Inventario</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Cita" asp-action="Index">Citas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Pago" asp-action="Index">Pagos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main id="main-content" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <div class="app-shell">
+        <aside class="app-sidebar" aria-label="Navegación principal">
+            <a class="app-brand" asp-area="" asp-controller="Home" asp-action="Index" aria-label="DkAssist inicio">
+                <span class="app-brand-mark" aria-hidden="true">Dk</span>
+                <span>
+                    <span class="app-brand-name">DkAssist</span>
+                    <span class="app-brand-subtitle">Control operativo</span>
+                </span>
+            </a>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - DkAssist - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
+            <nav class="app-nav">
+                <ul>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index"><span class="app-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5" /><path d="M5.5 10.5V20h13v-9.5" /><path d="M9.5 20v-6h5v6" /></svg></span>Inicio</a></li>
+                    <li><a asp-area="" asp-controller="Dashboard" asp-action="Index"><span class="app-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="2" /><rect x="13" y="4" width="7" height="4" rx="2" /><rect x="13" y="10" width="7" height="10" rx="2" /><rect x="4" y="13" width="7" height="7" rx="2" /></svg></span>Dashboard</a></li>
+                    <li><a asp-area="" asp-controller="Cliente" asp-action="Index"><span class="app-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5" /><path d="M5 20c.8-4 3.2-6 7-6s6.2 2 7 6" /></svg></span>Clientes</a></li>
+                    <li><a asp-area="" asp-controller="Producto" asp-action="Index"><span class="app-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z" /><path d="m4.5 7.8 7.5 4.3 7.5-4.3" /><path d="M12 12v8.5" /></svg></span>Productos</a></li>
+                    <li><a asp-area="" asp-controller="Proveedor" asp-action="Index"><span class="app-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3.5 17.5h17" /><path d="M5 17.5V8l7-4 7 4v9.5" /><path d="M8 17.5v-5h8v5" /><path d="M9 9h6" /></svg></span>Proveedores</a></li>
+                    <li><a asp-area="" asp-controller="Pedido" asp-action="Index"><span class="app-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4h10l2 4v12H5V8l2-4Z" /><path d="M5 8h14" /><path d="M9 12h6" /><path d="M9 16h4" /></svg></span>Pedidos</a></li>
+                    <li><a asp-area="" asp-controller="Cotizacion" asp-action="Index"><span class="app-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3.5h8l3 3V20H7V3.5Z" /><path d="M15 3.5V7h3" /><path d="M9.5 11h5" /><path d="M9.5 15h5" /></svg></span>Cotizaciones</a></li>
+                    <li><a asp-area="" asp-controller="MovimientoStock" asp-action="Index"><span class="app-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 7h11" /><path d="m15 4 3 3-3 3" /><path d="M17 17H6" /><path d="m9 14-3 3 3 3" /></svg></span>Inventario</a></li>
+                    <li><a asp-area="" asp-controller="Cita" asp-action="Index"><span class="app-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3" /><path d="M8 3.5v3" /><path d="M16 3.5v3" /><path d="M4 10h16" /><path d="M9 15h3.5" /></svg></span>Citas</a></li>
+                    <li><a asp-area="" asp-controller="Pago" asp-action="Index"><span class="app-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.5" y="6" width="17" height="12" rx="3" /><path d="M3.5 10h17" /><path d="M8 15h3" /><path d="M15.5 14.5h1" /></svg></span>Pagos</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Privacy"><span class="app-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5 19 6v5.5c0 4.3-2.7 7.5-7 9-4.3-1.5-7-4.7-7-9V6l7-2.5Z" /><path d="m9.5 12 1.6 1.6 3.8-4" /></svg></span>Privacidad</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <div class="app-content">
+            <main id="main-content" class="app-main">
+                @RenderBody()
+            </main>
+
+            <footer class="app-footer text-muted">
+                &copy; 2026 - DkAssist - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
+            </footer>
         </div>
-    </footer>
+    </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

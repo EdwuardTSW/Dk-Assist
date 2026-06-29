@@ -1,82 +1,142 @@
 @model DkAssist.Application.DTOs.DashboardMetrics
-@{ ViewData["Title"] = "Dashboard"; }
+@{
+    ViewData["Title"] = "Dashboard";
 
-<section class="mb-4" aria-labelledby="dashboard-title">
-    <div class="d-flex flex-column flex-md-row justify-content-between gap-3 align-items-md-end">
+    var chartWidth = 760d;
+    var chartHeight = 220d;
+    var chartPadding = 28d;
+    var chartData = Model.PagosDiariosMes.Count > 0
+        ? Model.PagosDiariosMes
+        : [new DkAssist.Application.DTOs.PagoDiarioMetric { Dia = 1, Total = 0 }];
+    var maxPago = Math.Max(1m, chartData.Max(p => p.Total));
+    var chartPoints = string.Join(" ", chartData.Select((item, index) =>
+    {
+        var x = chartData.Count == 1
+            ? chartPadding
+            : chartPadding + index * ((chartWidth - chartPadding * 2) / (chartData.Count - 1));
+        var y = chartHeight - chartPadding - ((double)(item.Total / maxPago) * (chartHeight - chartPadding * 2));
+        return FormattableString.Invariant($"{x:0.##},{y:0.##}");
+    }));
+    var chartAreaPoints = $"{chartPadding.ToString(System.Globalization.CultureInfo.InvariantCulture)},{(chartHeight - chartPadding).ToString(System.Globalization.CultureInfo.InvariantCulture)} {chartPoints} {(chartWidth - chartPadding).ToString(System.Globalization.CultureInfo.InvariantCulture)},{(chartHeight - chartPadding).ToString(System.Globalization.CultureInfo.InvariantCulture)}";
+}
+
+<section class="dashboard-page" aria-labelledby="dashboard-title">
+    <div class="dashboard-hero">
         <div>
-            <p class="text-uppercase text-muted fw-semibold mb-1">Resumen operativo</p>
-            <h1 id="dashboard-title" class="mb-0">Dashboard DkAssist</h1>
+            <p class="dashboard-kicker">RESUMEN OPERATIVO</p>
+            <h1 id="dashboard-title">Dashboard DkAssist</h1>
         </div>
-        <p class="text-muted mb-0">Indicadores actualizados con los datos registrados en el sistema.</p>
+        <p class="dashboard-updated">Indicadores actualizados con los datos registrados en el sistema.</p>
     </div>
+
+    <div class="kpi-grid" aria-label="Métricas principales">
+        <article class="kpi-card kpi-card-blue">
+            <div class="kpi-card-top">
+                <span class="kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5" /><path d="M5.5 20c.8-4 3-6 6.5-6s5.7 2 6.5 6" /><path d="M17.8 7.4h3.2" /><path d="M19.4 5.8V9" /></svg></span>
+                <p>Clientes nuevos del mes</p>
+            </div>
+            <strong>@Model.ClientesNuevosMes</strong>
+            <span class="kpi-trend @(Model.ClientesNuevosVariacionPorcentual >= 0 ? "trend-positive" : "trend-negative")">
+                @FormatTrend(Model.ClientesNuevosVariacionPorcentual) vs mes anterior
+            </span>
+        </article>
+
+        <article class="kpi-card kpi-card-amber">
+            <div class="kpi-card-top">
+                <span class="kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4h10l2 4v12H5V8l2-4Z" /><path d="M5 8h14" /><path d="M9 12h6" /><path d="M9 16h4" /><circle cx="17" cy="16" r="1.2" /></svg></span>
+                <p>Pedidos pendientes</p>
+            </div>
+            <strong>@Model.PedidosPendientes</strong>
+            <span class="kpi-note">Requieren seguimiento operativo</span>
+        </article>
+
+        <article class="kpi-card kpi-card-green">
+            <div class="kpi-card-top">
+                <span class="kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3.5h8l3 3V20H7V3.5Z" /><path d="M15 3.5V7h3" /><path d="M9.5 11h5" /><path d="M9.5 15h3" /><path d="m15 15 1.2 1.2 2.3-2.7" /></svg></span>
+                <p>Total cotizado vigente</p>
+            </div>
+            <strong>@Model.TotalCotizadoVigente.ToString("C")</strong>
+            <span class="kpi-note">Valor vigente en cotizaciones</span>
+        </article>
+
+        <article class="kpi-card kpi-card-red">
+            <div class="kpi-card-top">
+                <span class="kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4 21 19H3L12 4Z" /><path d="M12 9v4.5" /><path d="M12 17h.01" /></svg></span>
+                <p>Productos con stock bajo</p>
+            </div>
+            <strong>@Model.ProductosStockBajo</strong>
+            <span class="kpi-note">Prioridad para reposición</span>
+        </article>
+
+        <article class="kpi-card kpi-card-cyan">
+            <div class="kpi-card-top">
+                <span class="kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3" /><path d="M8 3.5v3" /><path d="M16 3.5v3" /><path d="M4 10h16" /><path d="M12 14v3l2.2 1.2" /></svg></span>
+                <p>Próximas citas de la semana</p>
+            </div>
+            <strong>@Model.ProximasCitasSemana</strong>
+            <span class="kpi-note">Agenda de los próximos 7 días</span>
+        </article>
+
+        <article class="kpi-card kpi-card-slate">
+            <div class="kpi-card-top">
+                <span class="kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.5" y="6" width="17" height="12" rx="3" /><path d="M3.5 10h17" /><path d="M8 15h3" /><path d="M16.5 14.2c0-.8-.7-1.2-1.8-1.2s-1.8.4-1.8 1.1c0 1.8 3.7.7 3.7 2.5 0 .7-.7 1.1-1.9 1.1-1 0-1.8-.3-2.2-.9" /><path d="M14.7 12.2v6.3" /></svg></span>
+                <p>Pagos del mes</p>
+            </div>
+            <strong>@Model.PagosMes.ToString("C")</strong>
+            <span class="kpi-trend @(Model.PagosMesVariacionPorcentual >= 0 ? "trend-positive" : "trend-negative")">
+                @FormatTrend(Model.PagosMesVariacionPorcentual) vs mes anterior
+            </span>
+        </article>
+    </div>
+
+    <section class="quick-actions-panel" aria-labelledby="quick-actions-title">
+        <div class="section-heading">
+            <p>Flujos frecuentes</p>
+            <h2 id="quick-actions-title">Acciones rápidas</h2>
+        </div>
+        <div class="quick-actions-grid">
+            <a class="quick-action quick-action-primary" asp-controller="Pedido" asp-action="Create">Nuevo pedido</a>
+            <a class="quick-action quick-action-primary" asp-controller="Pago" asp-action="Create">Nuevo pago</a>
+            <a class="quick-action" asp-controller="Cliente" asp-action="Create">Nuevo cliente</a>
+            <a class="quick-action" asp-controller="Producto" asp-action="Create">Nuevo producto</a>
+            <a class="quick-action" asp-controller="Cotizacion" asp-action="Create">Nueva cotización</a>
+            <a class="quick-action" asp-controller="Proveedor" asp-action="Create">Nuevo proveedor</a>
+            <a class="quick-action" asp-controller="MovimientoStock" asp-action="Create">Nuevo movimiento de stock</a>
+            <a class="quick-action" asp-controller="Cita" asp-action="Create">Nueva cita</a>
+        </div>
+    </section>
+
+    <section class="payments-chart-card" aria-labelledby="payments-chart-title">
+        <div class="section-heading">
+            <p>Ingresos del mes actual</p>
+            <h2 id="payments-chart-title">Tendencia de Pagos Mensuales</h2>
+        </div>
+        <div class="payments-chart-wrap">
+            <svg class="payments-chart" viewBox="0 0 @chartWidth @chartHeight" role="img" aria-labelledby="payments-chart-title payments-chart-description" preserveAspectRatio="none">
+                <desc id="payments-chart-description">Gráfica de líneas con pagos diarios registrados durante el mes actual.</desc>
+                <line x1="@chartPadding" y1="@(chartHeight - chartPadding)" x2="@(chartWidth - chartPadding)" y2="@(chartHeight - chartPadding)" class="chart-axis" />
+                <line x1="@chartPadding" y1="@chartPadding" x2="@chartPadding" y2="@(chartHeight - chartPadding)" class="chart-axis" />
+                <polygon points="@chartAreaPoints" class="chart-area"></polygon>
+                <polyline points="@chartPoints" class="chart-line" />
+                @foreach (var item in chartData.Select((value, index) => new { value, index }))
+                {
+                    var x = chartData.Count == 1
+                        ? chartPadding
+                        : chartPadding + item.index * ((chartWidth - chartPadding * 2) / (chartData.Count - 1));
+                    var y = chartHeight - chartPadding - ((double)(item.value.Total / maxPago) * (chartHeight - chartPadding * 2));
+                    <circle cx="@FormattableString.Invariant($"{x:0.##}")" cy="@FormattableString.Invariant($"{y:0.##}")" r="4.5" class="chart-point">
+                        <title>Día @item.value.Dia: @item.value.Total.ToString("C")</title>
+                    </circle>
+                }
+            </svg>
+        </div>
+    </section>
 </section>
 
-<div class="row g-4" aria-label="Métricas principales">
-    <div class="col-12 col-md-6 col-xl-4">
-        <article class="card h-100 border-primary">
-            <div class="card-body">
-                <p class="text-muted mb-1">Clientes nuevos del mes</p>
-                <p class="display-6 fw-bold mb-0">@Model.ClientesNuevosMes</p>
-            </div>
-        </article>
-    </div>
-
-    <div class="col-12 col-md-6 col-xl-4">
-        <article class="card h-100 border-warning">
-            <div class="card-body">
-                <p class="text-muted mb-1">Pedidos pendientes</p>
-                <p class="display-6 fw-bold mb-0">@Model.PedidosPendientes</p>
-            </div>
-        </article>
-    </div>
-
-    <div class="col-12 col-md-6 col-xl-4">
-        <article class="card h-100 border-success">
-            <div class="card-body">
-                <p class="text-muted mb-1">Total cotizado vigente</p>
-                <p class="display-6 fw-bold mb-0">@Model.TotalCotizadoVigente.ToString("C")</p>
-            </div>
-        </article>
-    </div>
-
-    <div class="col-12 col-md-6 col-xl-4">
-        <article class="card h-100 border-danger">
-            <div class="card-body">
-                <p class="text-muted mb-1">Productos con stock bajo</p>
-                <p class="display-6 fw-bold mb-0">@Model.ProductosStockBajo</p>
-            </div>
-        </article>
-    </div>
-
-    <div class="col-12 col-md-6 col-xl-4">
-        <article class="card h-100 border-info">
-            <div class="card-body">
-                <p class="text-muted mb-1">Próximas citas de la semana</p>
-                <p class="display-6 fw-bold mb-0">@Model.ProximasCitasSemana</p>
-            </div>
-        </article>
-    </div>
-
-    <div class="col-12 col-md-6 col-xl-4">
-        <article class="card h-100 border-secondary">
-            <div class="card-body">
-                <p class="text-muted mb-1">Pagos del mes</p>
-                <p class="display-6 fw-bold mb-0">@Model.PagosMes.ToString("C")</p>
-            </div>
-        </article>
-    </div>
-</div>
-
-<section class="mt-4" aria-labelledby="quick-actions-title">
-    <h2 id="quick-actions-title" class="h4">Acciones rápidas</h2>
-    <div class="d-flex flex-wrap gap-2">
-        <a class="btn btn-outline-primary" asp-controller="Cliente" asp-action="Create">Nuevo cliente</a>
-        <a class="btn btn-outline-primary" asp-controller="Producto" asp-action="Create">Nuevo producto</a>
-        <a class="btn btn-outline-primary" asp-controller="Pedido" asp-action="Create">Nuevo pedido</a>
-        <a class="btn btn-outline-primary" asp-controller="Cotizacion" asp-action="Create">Nueva cotización</a>
-        <a class="btn btn-outline-primary" asp-controller="Proveedor" asp-action="Create">Nuevo proveedor</a>
-        <a class="btn btn-outline-primary" asp-controller="MovimientoStock" asp-action="Create">Nuevo movimiento de stock</a>
-        <a class="btn btn-outline-primary" asp-controller="Cita" asp-action="Create">Nueva cita</a>
-        <a class="btn btn-outline-primary" asp-controller="Pago" asp-action="Create">Nuevo pago</a>
-    </div>
-</section>
+@functions {
+    private static string FormatTrend(decimal value)
+    {
+        var prefix = value >= 0 ? "+" : string.Empty;
+        return $"{prefix}{value:0.#}%";
+    }
+}

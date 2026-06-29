@@ -2,12 +2,17 @@ using DkAssist.Application.Services;
 using DkAssist.Domain.Interfaces;
 using DkAssist.Infrastructure.Data;
 using DkAssist.Infrastructure.Repositories;
+using DkAssist.Presentation.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddHttpClient();
+builder.Services.Configure<ProveedorCatalogoOptions>(builder.Configuration.GetSection("ProveedorCatalogo"));
+builder.Services.AddHttpClient<ProveedorCatalogoClient>(client =>
+{
+    client.BaseAddress = new Uri("https://fakestoreapi.com");
+});
 
 builder.Services.AddDbContext<DkAssistDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -37,10 +42,10 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
+    app.UseHttpsRedirection();
 }
 
 app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
-app.UseHttpsRedirection();
 app.MapStaticAssets();
 app.UseRouting();
 app.UseAuthorization();
