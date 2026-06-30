@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DkAssist.Api\DkAssist.Api.csproj" />
     <ProjectReference Include="..\DkAssist.Application\DkAssist.Application.csproj" />
     <ProjectReference Include="..\DkAssist.Infrastructure\DkAssist.Infrastructure.csproj" />
   </ItemGroup>

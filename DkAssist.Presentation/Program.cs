@@ -1,18 +1,14 @@
+using DkAssist.Api;
 using DkAssist.Application.Services;
 using DkAssist.Domain.Interfaces;
 using DkAssist.Infrastructure.Data;
 using DkAssist.Infrastructure.Repositories;
-using DkAssist.Presentation.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
-builder.Services.Configure<ProveedorCatalogoOptions>(builder.Configuration.GetSection("ProveedorCatalogo"));
-builder.Services.AddHttpClient<ProveedorCatalogoClient>(client =>
-{
-    client.BaseAddress = new Uri("https://fakestoreapi.com");
-});
+builder.Services.AddDkAssistExternalApis();
 
 builder.Services.AddDbContext<DkAssistDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -36,6 +32,12 @@ builder.Services.AddScoped<PagoService>();
 builder.Services.AddScoped<DashboardService>();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<DkAssistDbContext>();
+    await DemoDataSeeder.SeedAsync(dbContext);
+}
 
 // Middleware order: Exception/HSTS → HTTPS → Static → Routing → Auth → Authz → Endpoints
 if (!app.Environment.IsDevelopment())

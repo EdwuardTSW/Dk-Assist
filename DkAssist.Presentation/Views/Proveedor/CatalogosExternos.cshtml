@@ -1,0 +1,29 @@
+@using DkAssist.Api.ExternalCatalogs
+@model IReadOnlyList<IProveedorCatalogoClient>
+@{ ViewData["Title"] = "Catálogos externos"; }
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <p class="text-muted text-uppercase fw-bold small mb-1">Proveedores externos</p>
+        <h1 class="mb-0">Catálogos externos</h1>
+        <p class="text-muted mb-0">Selecciona un catálogo para consultar productos externos. Entra a una sección y vuelve aquí para abrir otra.</p>
+    </div>
+    <a asp-action="Index" class="btn btn-outline-secondary">← Volver a proveedores</a>
+</div>
+
+<div class="external-catalog-grid">
+    @foreach (var catalogo in Model)
+    {
+        <article class="card external-catalog-card">
+            <div class="card-body">
+                <span class="external-catalog-badge">Catálogo externo</span>
+                <h2 class="h4 mt-3">@catalogo.Name</h2>
+                <p class="text-muted">Consulta productos, categorías, precios e imágenes disponibles desde este proveedor.</p>
+                <a href="@catalogo.BaseUrl" target="_blank" rel="noopener noreferrer" class="external-catalog-url">@catalogo.BaseUrl</a>
+                <div class="mt-4">
+                    <a class="btn btn-primary" asp-action="CatalogoResurtido" asp-route-proveedor="@catalogo.Key">Entrar al catálogo</a>
+                </div>
+            </div>
+        </article>
+    }
+</div>

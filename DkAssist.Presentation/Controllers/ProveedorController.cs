@@ -1,7 +1,7 @@
+using DkAssist.Api.ExternalCatalogs;
 using DkAssist.Application.Services;
 using DkAssist.Domain.Models;
 using DkAssist.Presentation.Models;
-using DkAssist.Presentation.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DkAssist.Presentation.Controllers
@@ -9,23 +9,33 @@ namespace DkAssist.Presentation.Controllers
     /// <summary>
     /// Endpoints CRUD para el módulo Proveedores y consulta del catálogo externo de resurtido.
     /// </summary>
-    public class ProveedorController(ProveedorService service, ProveedorCatalogoClient catalogoClient) : Controller
+    public class ProveedorController(ProveedorService service, ProveedorCatalogoService catalogoService) : Controller
     {
         // ── Catálogo externo ─────────────────────────────────────────────────
+
+        /// <summary>
+        /// Muestra los catálogos externos disponibles.
+        /// </summary>
+        public IActionResult CatalogosExternos() => View(catalogoService.ObtenerCatalogos());
 
         /// <summary>
         /// Consulta el catálogo de insumos disponibles en el proveedor externo
         /// para verificar productos y precios disponibles.
         /// </summary>
-        public async Task<IActionResult> CatalogoResurtido()
+        public async Task<IActionResult> CatalogoResurtido(string? proveedor = null)
         {
-            var result = await catalogoClient.ObtenerProductosAsync(HttpContext.RequestAborted);
+            if (string.IsNullOrWhiteSpace(proveedor))
+            {
+                return RedirectToAction(nameof(CatalogosExternos));
+            }
+
+            var result = await catalogoService.ObtenerProductosAsync(proveedor, HttpContext.RequestAborted);
             if (result.UsandoFallback)
             {
                 ViewBag.Error = result.MensajeError;
             }
 
-            return View(result.Productos);
+            return View(result);
         }
 
         // ── CRUD proveedores internos ────────────────────────────────────────
